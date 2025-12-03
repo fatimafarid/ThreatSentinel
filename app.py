@@ -215,7 +215,7 @@ def main_page():
     # NEW: Total Reports Count - PDF files count karein
     total_reports = 0
     try:
-        reports_path = "/home/defender/Desktop/Rule_Generation/reports/REPORT"
+        reports_path = "/home/defender/Desktop/ThreatSentinel/Bootstrap/REPORT"
         if os.path.exists(reports_path):
             # PDF files count karein, folders nahi
             pdf_files = [f for f in os.listdir(reports_path) 
@@ -371,7 +371,7 @@ def integration_page():
 
     return render_template("integration.html", username=session.get('username'))
 
-REPORTS_BASE_PATH = "/home/defender/Desktop/Rule_Generation/reports/REPORT"
+REPORTS_BASE_PATH = "/home/defender/Desktop/ThreatSentinel/Bootstrap/REPORT"
 
 def verify_reports_path():
     print(f"=== DEBUG: Checking REPORTS_BASE_PATH ===")
