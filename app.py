@@ -133,7 +133,7 @@ def get_db_connections(username):
 # ==============================================
 
 # Dynamic path jo har platform par kaam kare
-BASE_DIR = Path(__file__).parent.absolute()
+BASE_DIR = Path(os.getcwd())
 REPORTS_BASE_PATH = BASE_DIR / "REPORT"
 
 # Create directory if it doesn't exist
@@ -201,7 +201,7 @@ def login_page():
             return "Access denied. You are not authorized to access this system.", 403
         
         # ✅ ADDED: Check if database is available
-        if not logins_collection:
+        if logins_collection is None:
             return "Database connection error. Please try again later or contact administrator.", 500
         
         existing_user = logins_collection.find_one({"username": username})
