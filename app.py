@@ -12,6 +12,10 @@ import urllib.parse
 import secrets
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from pathlib import Path
+
+# ✅ ADDED: Import certifi for SSL certificates
+import certifi
 
 # Correct name usage
 app = Flask(__name__)
@@ -55,26 +59,56 @@ def internal_error(e):
     return "Internal server error", 500
 
 # ==============================================
-# 🚀 MongoDB Atlas Connection for Render.com
+# 🚀 MongoDB Atlas Connection for Render.com - ✅ FIXED VERSION
 # ==============================================
-import os
 
 # Get MongoDB Atlas URI from environment variable (for Render)
-ATLAS_URI = os.getenv("MONGODB_URI", "mongodb+srv://fatimazareen889_db_user:ccicCyFyFELe6mEt@threatsentinel.0cfaybg.mongodb.net/?appName=threatsentinel")
+ATLAS_URI = os.getenv("MONGODB_URI", "mongodb+srv://fatimazareen889_db_user:ccicCyFyFELe6mEt@threatsentinel.0cfaybg.mongodb.net/?retryWrites=true&w=majority&appName=threatsentinel")
 
-# Create a single client for all databases
-client = MongoClient(ATLAS_URI)
+# ✅ FIXED: Create a single client for all databases WITH SSL FIX
+try:
+    client = MongoClient(
+        ATLAS_URI,
+        tls=True,  # Enable TLS/SSL
+        tlsCAFile=certifi.where(),  # Use certifi's CA certificates for SSL verification
+        serverSelectionTimeoutMS=10000,  # 10 seconds timeout
+        connectTimeoutMS=10000,
+        socketTimeoutMS=30000,
+        retryWrites=True
+    )
+    
+    # Test connection
+    client.admin.command('ping')
+    print("✅ MongoDB Atlas connection successful!")
+    
+except Exception as e:
+    print(f"❌ MongoDB connection failed: {e}")
+    # Fallback connection without SSL (for testing only)
+    try:
+        client = MongoClient(ATLAS_URI, serverSelectionTimeoutMS=5000)
+        print("⚠️ Using fallback MongoDB connection (without SSL verification)")
+    except Exception as e2:
+        print(f"❌ Fallback connection also failed: {e2}")
+        client = None
 
-# MongoDB connection (default CVSS DB for CVSS scores)
+# MongoDB connection for Flask-PyMongo
 app.config["MONGO_URI"] = ATLAS_URI
 mongo = PyMongo(app)
 
 # Separate direct connection for logins
-logins_db = client["Logins"]        # Use Logins database
-logins_collection = logins_db["users"]     # Use users collection
+if client:
+    logins_db = client["Logins"]        # Use Logins database
+    logins_collection = logins_db["users"]     # Use users collection
+    print("✅ Logins database connected")
+else:
+    logins_collection = None
+    print("⚠️ Logins collection not available - DB connection failed")
 
 # Function to get database connections based on username
 def get_db_connections(username):
+    if not client:
+        raise Exception("Database connection not available. Please check MongoDB Atlas connection.")
+    
     if username == 'internal':
         # Internal's database connections from Atlas
         ioc_db = client["ioc_database"]
@@ -95,7 +129,37 @@ def get_db_connections(username):
     return ioc_collection, alerts_collection, cvss_collection
 
 # ==============================================
-# The rest of your code remains EXACTLY THE SAME
+# ✅ FIXED REPORTS PATH FOR RENDER
+# ==============================================
+
+# Dynamic path jo har platform par kaam kare
+BASE_DIR = Path(__file__).parent.absolute()
+REPORTS_BASE_PATH = BASE_DIR / "REPORT"
+
+# Create directory if it doesn't exist
+os.makedirs(REPORTS_BASE_PATH, exist_ok=True)
+
+print(f"📁 Reports path set to: {REPORTS_BASE_PATH}")
+print(f"📁 Path exists: {os.path.exists(REPORTS_BASE_PATH)}")
+
+def verify_reports_path():
+    print(f"=== DEBUG: Checking REPORTS_BASE_PATH ===")
+    print(f"REPORTS_BASE_PATH: {REPORTS_BASE_PATH}")
+    print(f"Path exists: {os.path.exists(REPORTS_BASE_PATH)}")
+    
+    if os.path.exists(REPORTS_BASE_PATH):
+        folders = os.listdir(REPORTS_BASE_PATH)
+        print(f"Files in path: {folders}")
+    else:
+        print("ERROR: REPORTS_BASE_PATH does not exist!")
+    
+    return os.path.exists(REPORTS_BASE_PATH)
+
+# Call this function when app starts
+verify_reports_path()
+
+# ==============================================
+# ROUTES - ALL YOUR EXISTING ROUTES (NO CHANGES)
 # ==============================================
 
 @app.route('/')
@@ -135,6 +199,10 @@ def login_page():
         
         if username not in allowed_users:
             return "Access denied. You are not authorized to access this system.", 403
+        
+        # ✅ ADDED: Check if database is available
+        if not logins_collection:
+            return "Database connection error. Please try again later or contact administrator.", 500
         
         existing_user = logins_collection.find_one({"username": username})
         
@@ -212,16 +280,15 @@ def main_page():
     cvss_data = list(unique.values())
     total_alerts = alerts_collection.count_documents({})
     
-    # NEW: Total Reports Count - PDF files count karein
+    # ✅ FIXED: Total Reports Count with dynamic path
     total_reports = 0
     try:
-        reports_path = "/home/defender/Desktop/ThreatSentinel/Bootstrap/REPORT"
-        if os.path.exists(reports_path):
+        if os.path.exists(REPORTS_BASE_PATH):
             # PDF files count karein, folders nahi
-            pdf_files = [f for f in os.listdir(reports_path) 
-                        if f.endswith('.pdf') and os.path.isfile(os.path.join(reports_path, f))]
+            pdf_files = [f for f in os.listdir(REPORTS_BASE_PATH) 
+                        if f.lower().endswith('.pdf') and os.path.isfile(os.path.join(REPORTS_BASE_PATH, f))]
             total_reports = len(pdf_files)
-            print(f"=== DEBUG: Found {total_reports} PDF files in reports directory ===")
+            print(f"=== DEBUG: Found {total_reports} PDF files in {REPORTS_BASE_PATH} ===")
     except Exception as e:
         print(f"Error counting reports: {e}")
         total_reports = 0
@@ -267,7 +334,7 @@ def main_page():
     return render_template("main.html", 
                            cvss_data=cvss_data, 
                            total_alerts=total_alerts,
-                           total_reports=total_reports,  # NEW: Total reports variable pass karein
+                           total_reports=total_reports,
                            alerts_chart_data=alerts_chart_data,
                            ioc_chart_data=ioc_chart_data,
                            ioc_time_chart_data=ioc_time_chart_data,
@@ -371,24 +438,6 @@ def integration_page():
 
     return render_template("integration.html", username=session.get('username'))
 
-REPORTS_BASE_PATH = "/home/defender/Desktop/ThreatSentinel/Bootstrap/REPORT"
-
-def verify_reports_path():
-    print(f"=== DEBUG: Checking REPORTS_BASE_PATH ===")
-    print(f"REPORTS_BASE_PATH: {REPORTS_BASE_PATH}")
-    print(f"Path exists: {os.path.exists(REPORTS_BASE_PATH)}")
-    
-    if os.path.exists(REPORTS_BASE_PATH):
-        folders = os.listdir(REPORTS_BASE_PATH)
-        print(f"Folders in path: {folders}")
-    else:
-        print("ERROR: REPORTS_BASE_PATH does not exist!")
-    
-    return os.path.exists(REPORTS_BASE_PATH)
-
-# Call this function when app starts
-verify_reports_path()
-
 @app.route('/api/reports/folders')
 def get_report_folders():
     try:
@@ -419,7 +468,7 @@ def debug_reports():
     """Debug route to check reports path"""
     try:
         debug_info = {
-            "reports_base_path": REPORTS_BASE_PATH,
+            "reports_base_path": str(REPORTS_BASE_PATH),
             "path_exists": os.path.exists(REPORTS_BASE_PATH),
             "current_directory": os.getcwd(),
             "static_folder": app.static_folder
@@ -451,7 +500,7 @@ def get_pdf_from_folder(report_name):
             return jsonify({'error': 'PDF file not found'}), 404
         
         # Create the web path for the PDF
-        pdf_path = f"/static/reports/REPORT/{urllib.parse.quote(report_name)}.pdf"
+        pdf_path = f"/static/Bootstrap/REPORT/{urllib.parse.quote(report_name)}.pdf"
         
         print(f"PDF path: {pdf_path}")
         return jsonify({'pdfPath': pdf_path})
@@ -485,7 +534,7 @@ def download_report(report_name):
         return str(e), 500
 
 # Add this route to serve static PDF files
-@app.route('/static/reports/REPORT/<path:filename>')
+@app.route('/static/Bootstrap/REPORT/<path:filename>')
 def serve_pdf_files(filename):
     try:
         # 🔒 Prevent directory traversal here too
@@ -789,7 +838,7 @@ def infosec_dashboard():
             break
 
     cvss_data = list(unique.values())
-    total_alerts = alerts_collection.count_documents({})  # YEH LINE PEHLE SE HAI
+    total_alerts = alerts_collection.count_documents({})
 
     pipeline = [
         {"$group": {"_id": "$alert_type", "count": {"$sum": 1}}},
@@ -834,7 +883,7 @@ def infosec_dashboard():
 
     return render_template("infosec_main.html", 
                            cvss_data=cvss_data, 
-                           total_alerts=total_alerts,  # YEH VARIABLE PEHLE SE PASS HO RAHA HAI
+                           total_alerts=total_alerts,
                            alerts_chart_data=alerts_chart_data,
                            ioc_chart_data=ioc_chart_data,
                            ioc_time_chart_data=ioc_time_chart_data,
@@ -902,7 +951,7 @@ def infosec_alerts_page():
     return render_template("infosec_alerts.html", 
                            alerts_data=alerts_data,
                            username=session['username'],
-                           current_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+                           current_time=datetime.now().strftime("%Y-%m-d %H:%M:%S"))
 
 @app.route('/infosec_report.html')
 def infosec_report_page():

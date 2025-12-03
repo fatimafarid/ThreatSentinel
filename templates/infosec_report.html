@@ -8,9 +8,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-  
     :root {
-      --primary-bg: #000000; /* Pure black background */
+      --primary-bg: #000000;
       --secondary-bg: #12121e;
       --card-bg: #1a1a2e;
       --accent-color: #ff6a00;
@@ -171,38 +170,38 @@
       color: var(--text-secondary);
     }
    
-   /* Table Styles */
-.reports-table {
-  background-color: var(--card-bg);
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
+    /* Table Styles */
+    .reports-table {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
 
-.table-custom {
-  width: 100%;
-  color: var(--text-primary);
-  border-collapse: collapse;
-}
+    .table-custom {
+      width: 100%;
+      color: var(--text-primary);
+      border-collapse: collapse;
+    }
 
-.table-custom th {
-  background-color: rgba(255, 106, 0, 0.15);
-  color: var(--accent-color);
-  padding: 1rem;
-  text-align: left;
-  font-weight: 600;
-  border-bottom: 1px solid var(--border-color);
-}
+    .table-custom th {
+      background-color: rgba(255, 106, 0, 0.15);
+      color: var(--accent-color);
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border-color);
+    }
 
-.table-custom td {
-  padding: 1rem;
-  border-bottom: 1px solid var(--border-color);
-  vertical-align: middle;
-}
+    .table-custom td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+    }
 
-.table-custom tbody tr:hover {
-  background-color: rgba(255, 106, 0, 0.1);
-}
+    .table-custom tbody tr:hover {
+      background-color: rgba(255, 106, 0, 0.1);
+    }
    
     /* Action Buttons */
     .btn-action {
@@ -276,11 +275,6 @@
       background-color: var(--primary-bg);
     }
    
-    /* PDF Content Styling - Remove White Background */
-    .pdf-frame {
-      filter: invert(0.9) hue-rotate(180deg) contrast(1.1);
-    }
-   
     /* Responsive Adjustments */
     @media (max-width: 992px) {
       .app-container {
@@ -327,8 +321,8 @@
         font-size: 1.3rem;
       }
      
-      .table-dark-custom thead th,
-      .table-dark-custom tbody td {
+      .table-custom thead th,
+      .table-custom tbody td {
         padding: 0.75rem 1rem;
       }
 
@@ -373,7 +367,7 @@
           </a>
         </div>
         <div class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="/logout" class="nav-link">
             <i class="fas fa-sign-out-alt"></i> Log Out
           </a>
         </div>
@@ -383,7 +377,7 @@
     <div class="main-content">
       <div class="page-header">
         <h1 class="page-title">Security Reports</h1>
-        <p class="page-subtitle">View and download security reports</p>
+        <p class="page-subtitle">View and download PDF security reports</p>
       </div>
       
       <!-- Reports Table -->
@@ -402,13 +396,14 @@
               <tr>
                 <th>S.No.</th>
                 <th>Report Name</th>
+                <th>Type</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody id="reportsTableBody">
               <!-- Loading State -->
               <tr id="loadingRow">
-                <td colspan="3">
+                <td colspan="4">
                   <div class="loading-spinner">
                     <div class="spinner-border" role="status">
                       <span class="visually-hidden">Loading reports...</span>
@@ -440,46 +435,27 @@
   
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    let allFolders = []; // Store all folders for search functionality
+    let allReports = []; // Store all reports for search functionality
 
-    // Function to fetch all report folders
-    async function fetchReportFolders() {
+    // Function to fetch all PDF reports (not folders)
+    async function fetchReports() {
       try {
-        console.log("Fetching report folders...");
+        console.log("Fetching reports...");
         const response = await fetch('/api/reports/folders');
         
         if (!response.ok) {
-          throw new Error('Failed to fetch report folders');
+          throw new Error('Failed to fetch reports');
         }
         
-        const folders = await response.json();
-        console.log("Received folders:", folders);
-        return folders;
+        const reports = await response.json();
+        console.log("Received reports:", reports);
+        return reports;
       } catch (error) {
-        console.error('Error fetching report folders:', error);
+        console.error('Error fetching reports:', error);
         return [];
       }
     }
-    
-  async function getPdfFromFolder(reportName) {
-  try {
-    console.log("Getting PDF for report:", reportName);
-    const encodedReportName = encodeURIComponent(reportName);
-    const response = await fetch(`/api/reports/${encodedReportName}/pdf`);
-    
-    if (!response.ok) {
-      throw new Error('Failed to fetch PDF file');
-    }
-    
-    const data = await response.json();
-    console.log("PDF data:", data);
-    return data.pdfPath;
-  } catch (error) {
-    console.error('Error fetching PDF file:', error);
-    return null;
-  }
-}
-    
+
     // Function to populate the reports table
     async function populateReportsTable() {
       const tableBody = document.getElementById('reportsTableBody');
@@ -489,28 +465,28 @@
       loadingRow.style.display = '';
       
       try {
-        console.log("=== DEBUG: Starting to fetch report folders ===");
+        console.log("=== DEBUG: Starting to fetch reports ===");
         
-        // Fetch all report folders
-        allFolders = await fetchReportFolders();
+        // Fetch all reports (PDF file names without .pdf extension)
+        allReports = await fetchReports();
         
-        console.log("=== DEBUG: Raw folders data ===", allFolders);
-        console.log("=== DEBUG: Number of folders ===", allFolders.length);
+        console.log("=== DEBUG: Raw reports data ===", allReports);
+        console.log("=== DEBUG: Number of reports ===", allReports.length);
         
         // Hide loading row
         loadingRow.style.display = 'none';
         
-        if (allFolders.length === 0) {
-          console.log("=== DEBUG: No folders found ===");
+        if (allReports.length === 0) {
+          console.log("=== DEBUG: No reports found ===");
           // Show empty state
           tableBody.innerHTML = `
             <tr>
-              <td colspan="3">
+              <td colspan="4">
                 <div class="empty-state">
-                  <i class="fas fa-folder-open"></i>
+                  <i class="fas fa-file-pdf"></i>
                   <h4>No Reports Found</h4>
-                  <p>No report folders found in the reports directory.</p>
-                  <p class="text-muted">Check if reports exist in: /home/defender/Desktop/ThreatSentinel/Bootstrap/REPORT</p>
+                  <p>No PDF reports found in the reports directory.</p>
+                  <p class="text-muted">Upload PDF files to the reports folder to see them here.</p>
                 </div>
               </td>
             </tr>
@@ -518,16 +494,16 @@
           return;
         }
         
-        console.log("=== DEBUG: Displaying folders ===", allFolders);
-        // Display all folders initially
-        displayFilteredFolders(allFolders);
+        console.log("=== DEBUG: Displaying reports ===", allReports);
+        // Display all reports initially
+        displayFilteredReports(allReports);
         
       } catch (error) {
         console.error('=== DEBUG: Error in populateReportsTable ===', error);
         loadingRow.style.display = 'none';
         tableBody.innerHTML = `
           <tr>
-            <td colspan="3">
+            <td colspan="4">
               <div class="empty-state">
                 <i class="fas fa-exclamation-triangle"></i>
                 <h4>Error Loading Reports</h4>
@@ -540,15 +516,15 @@
       }
     }
 
-    // Function to display filtered folders - FIXED VERSION
-    function displayFilteredFolders(folders) {
+    // Function to display filtered reports
+    function displayFilteredReports(reports) {
       const tableBody = document.getElementById('reportsTableBody');
       
-      if (folders.length === 0) {
+      if (reports.length === 0) {
         // Show no results state
         tableBody.innerHTML = `
           <tr>
-            <td colspan="3">
+            <td colspan="4">
               <div class="no-results">
                 <i class="fas fa-search"></i>
                 <h4>No Matching Reports</h4>
@@ -563,24 +539,24 @@
       // Clear table body
       tableBody.innerHTML = '';
       
-      // Populate table with filtered folders - USING EVENT DELEGATION
-      for (let i = 0; i < folders.length; i++) {
-        const folder = folders[i];
+      // Populate table with reports
+      reports.forEach((report, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td>${i + 1}</td>
-          <td>${folder}</td>
+          <td>${index + 1}</td>
+          <td>${report}</td>
+          <td><span class="badge bg-danger">PDF</span></td>
           <td>
-            <button class="btn btn-action btn-view" data-folder="${folder}">
+            <button class="btn btn-action btn-view" data-report="${report}">
               <i class="fas fa-eye"></i> View
             </button>
-            <button class="btn btn-action btn-download" data-folder="${folder}">
+            <button class="btn btn-action btn-download" data-report="${report}">
               <i class="fas fa-download"></i> Download
             </button>
           </td>
         `;
         tableBody.appendChild(row);
-      }
+      });
     }
 
     // Function to filter reports based on search input
@@ -588,36 +564,45 @@
       const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
       
       if (searchTerm === '') {
-        // If search is empty, show all folders
-        displayFilteredFolders(allFolders);
+        // If search is empty, show all reports
+        displayFilteredReports(allReports);
         return;
       }
       
-      // Filter folders based on search term
-      const filteredFolders = allFolders.filter(folder => 
-        folder.toLowerCase().includes(searchTerm)
+      // Filter reports based on search term
+      const filteredReports = allReports.filter(report => 
+        report.toLowerCase().includes(searchTerm)
       );
       
       // Display filtered results
-      displayFilteredFolders(filteredFolders);
+      displayFilteredReports(filteredReports);
     }
     
     // Function to view a report
-    async function viewReport(folderName) {
+    async function viewReport(reportName) {
       try {
-        console.log("Viewing report for folder:", folderName);
-        // Get the PDF file path from the folder
-        const pdfPath = await getPdfFromFolder(folderName);
+        console.log("Viewing report:", reportName);
+        
+        // Get the PDF file path
+        const encodedReportName = encodeURIComponent(reportName);
+        const response = await fetch(`/api/reports/${encodedReportName}/pdf`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch PDF file');
+        }
+        
+        const data = await response.json();
+        const pdfPath = data.pdfPath;
         
         if (!pdfPath) {
-          alert('No PDF file found in this report folder');
+          alert('No PDF file found for this report');
           return;
         }
         
         console.log("Setting PDF source to:", pdfPath);
         // Set the PDF source in the modal
         document.getElementById('pdfViewer').src = pdfPath;
-        document.getElementById('pdfModalLabel').textContent = `Report: ${folderName}`;
+        document.getElementById('pdfModalLabel').textContent = `Report: ${reportName}`;
         
         // Show the modal
         const pdfModal = new bootstrap.Modal(document.getElementById('pdfModal'));
@@ -631,28 +616,27 @@
     
     // Function to download a report
     async function downloadReport(reportName) {
-  try {
-    const encodedReportName = encodeURIComponent(reportName);
-    window.open(`/download-report/${encodedReportName}`, '_blank');
+      try {
+        const encodedReportName = encodeURIComponent(reportName);
+        window.open(`/download-report/${encodedReportName}`, '_blank');
+      } catch (error) {
+        console.error('Error downloading report:', error);
+        alert('Error downloading report. Please try again.');
+      }
+    }
     
-  } catch (error) {
-    console.error('Error downloading report:', error);
-    alert('Error downloading report. Please try again.');
-  }
-}
-    
-    // Event delegation for buttons - NEW CODE
+    // Event delegation for buttons
     document.addEventListener('click', function(e) {
       if (e.target.classList.contains('btn-view') || e.target.closest('.btn-view')) {
         const button = e.target.classList.contains('btn-view') ? e.target : e.target.closest('.btn-view');
-        const folderName = button.getAttribute('data-folder');
-        viewReport(folderName);
+        const reportName = button.getAttribute('data-report');
+        viewReport(reportName);
       }
       
       if (e.target.classList.contains('btn-download') || e.target.closest('.btn-download')) {
         const button = e.target.classList.contains('btn-download') ? e.target : e.target.closest('.btn-download');
-        const folderName = button.getAttribute('data-folder');
-        downloadReport(folderName);
+        const reportName = button.getAttribute('data-report');
+        downloadReport(reportName);
       }
     });
     
