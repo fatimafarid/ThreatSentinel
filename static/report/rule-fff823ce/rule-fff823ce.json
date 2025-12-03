@@ -1,0 +1,41 @@
+{
+    "rule_id": "rule-fff823ce",
+    "created": "2025-10-03T08:27:57Z",
+    "source_alert_id": "68da5d2de8b5c521d22e85dd",
+    "alert_type": "SYN_SCAN",
+    "src_ip": "10.129.5.193",
+    "dst_ip": null,
+    "protocol": "TCP",
+    "ports": [
+        "10000",
+        "10001",
+        "10002",
+        "10009",
+        "1007",
+        "10180",
+        "1022",
+        "1024",
+        "1025",
+        "1035",
+        "1037",
+        "10566",
+        "1077",
+        "10778",
+        "110"
+    ],
+    "ports_scanned_count": 15,
+    "duration": 9.6,
+    "cvss_score": 5.3,
+    "priority": "Medium",
+    "decision": {
+        "action": "block_ip",
+        "target": "10.129.5.193",
+        "reason": "SYN Scan detected",
+        "confidence": "medium",
+        "expiry_seconds": 14400
+    },
+    "suggested_commands": [
+        "iptables -I INPUT -s 10.129.5.193 -j DROP # temp block",
+        "netsh advfirewall firewall add rule name=\"Block_10.129.5.193\" dir=in action=block remoteip=10.129.5.193"
+    ]
+}

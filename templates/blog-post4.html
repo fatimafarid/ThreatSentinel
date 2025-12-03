@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Real-Time IOC Sharing - Threat Sentinel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+     body {
+            font-family: 'Merriweather', serif;
+            font-size: 16px;
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle, #2a0e00 0%, #000 70%);
+            color: white;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 0;
+        }
+
+        .navbar-custom {
+            background: #1a1a1a;
+            padding: 15px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 2.5rem;
+            color: #fff !important;
+        }
+
+        .nav-link {
+            color: #ddd !important;
+            font-weight: 700;
+            margin-right: 20px;
+            font-size: 2.5rem;
+        }
+
+        .nav-link:hover {
+            color: #fff !important;
+        }
+    .blog-post-container {
+    background: #121212;
+    border-left: 4px solid #ffa726;
+    padding: 30px;
+    margin-top: 40px;
+    border-radius: 8px;
+    position: relative; /* Added */
+    z-index: 1;          /* Added */
+}
+    .blog-post-container img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    .back-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 24px; /* height aur width dono baray */
+    font-size: 18px;    /* text size bara */
+    font-weight: 600;   /* text thoda bold */
+}
+.blog-post-container p {
+           font-size: 50px; /* ya jitna tum chaho */
+          line-height: 1.6; /* readability ke liye */
+        }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">Threat Sentinel</a>
+      <div class="collapse navbar-collapse justify-content-end">
+        <ul class="navbar-nav me-3">
+          <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="features.html">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="news.html">News</a></li>
+          <li class="nav-item"><a class="nav-link" href="events.html">Events</a></li>
+          <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+        </ul>
+        <a class="btn btn-outline-warning rounded-pill" href="login.html">Login / Signup</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Blog Post Content -->
+  <div class="container">
+    <div class="blog-post-container">
+      <h2 class="text-warning mb-4">Real-Time IOC Sharing</h2>
+      <img src="{{ url_for('static', filename='icos.jpeg') }}" alt="Real-Time IOC Sharing" />
+
+
+      <p>
+        In the ever-evolving world of cyber threats, real-time Indicator of Compromise (IOC) sharing has become essential for swift detection and defense. As threats grow more sophisticated and frequent, the ability to instantly share indicators—such as malicious IP addresses, domains, file hashes, and patterns of behavior—can be the difference between early containment and a full-blown breach.
+      </p>
+      <p>
+        At Threat Sentinel, we prioritize real-time IOC sharing across our threat intelligence ecosystem. Our platform enables automated exchange of validated IOCs with security teams, partners, and community feeds, accelerating response times and reducing dwell time across environments. This means organizations are not fighting in isolation but benefiting from a collective defense network.
+      </p>
+      <p>
+        Real-time IOC sharing empowers organizations of all sizes to stay ahead of threats. Whether it’s detecting phishing attempts, malware activity, or suspicious lateral movements, our system ensures timely dissemination of critical intel. With Threat Sentinel, your security team moves from reactive to proactive—armed with insights that matter, when they matter most.
+      </p>
+
+      <a href="blog.html" class="btn btn-warning back-btn">← Back to Blog</a>
+ </div>
+  </div>
+
+</body>
+</html>

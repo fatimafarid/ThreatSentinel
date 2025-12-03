@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ThreatSentinel - Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      font-size: 30px;
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle, #2a0e0e 0%, #000 70%);
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: 0;
+    }
+    .top-header { padding: 15px 20px 8px 20px; font-weight: 700; font-size: 3.5rem; color: #fff; z-index: 1; position: relative; }
+    .contact-center { text-align: center; margin-bottom: 8px; z-index: 1; position: relative; }
+    .contact-btn { background-color: #111; color: white; border: 1px solid #ff3c00; border-radius: 25px; padding: 4px 12px; font-size: 1.5rem; box-shadow: 0 0 8px rgba(255, 60, 0, 0.5); }
+    .main-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; text-align: center; }
+    .header-title { font-size: 3.5rem; font-weight: bold; margin-bottom: 8px; }
+    .subtitle { font-size: 2.5rem; color: #ccc; max-width: 1800px; margin-bottom: 20px; }
+    .glass-box { background: rgba(255, 100, 50, 0.05); border-radius: 15px; padding: 60px; width: 100%; max-width: 550px; min-height: 550px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 100, 50, 0.2); box-shadow: 0 0 20px rgba(255, 80, 10, 0.15); }
+    .form-icon { font-size: 1.1rem; color: #ff5722; margin-bottom: 8px; }
+    .form-title { font-size: 2.2rem; font-weight: 500; margin-bottom: 12px; }
+    .form-control { background: rgba(255, 255, 255, 0.07); border: none; color: white; font-size: 1.8rem; padding: 6px 10px; }
+    .form-control::placeholder { color: #bbb; }
+    .btn-submit { background-color: #ff5722; border: none; border-radius: 8px; font-size: 1.5rem; padding: 6px 10px; }
+    .btn-submit:hover { background-color: #e64a19; }
+  </style>
+</head>
+<body>
+  <div class="top-header">ThreatSentinel</div>
+
+  <div class="contact-center">
+    <button class="contact-btn">
+      <i class="bi bi-record-circle me-1 text-danger"></i> Contact US
+    </button>
+  </div>
+
+  <div class="main-content">
+    <h2 class="header-title">Access the Central TruSecure Intelligence Platform</h2>
+    <p class="subtitle">
+      Sign up to collaborate, receive analyzed threat intelligence, and manage your<br>
+      organization's cyber defenses in one secure place.
+    </p>
+
+    <div class="glass-box">
+      <div class="form-icon"><i class="bi bi-geo-alt-fill"></i></div>
+      <div class="form-title">Enter Details</div>
+      
+      <!-- ✅ Flask route match -->
+<form action="{{ url_for('login_page') }}" method="POST" autocomplete="off" id="loginForm">
+        <!-- Hidden dummy fields to trick browsers -->
+        <input type="text" style="display:none" name="fakeusername">
+        <input type="password" style="display:none" name="fakepassword">
+        
+        <input type="email" name="work_email" class="form-control mb-2" placeholder="Work Email" required autocomplete="nope">
+        <input type="text" name="first_name" class="form-control mb-2" placeholder="First Name" required autocomplete="nope">
+        <input type="text" name="last_name" class="form-control mb-2" placeholder="Last Name" required autocomplete="nope">
+        <input type="text" name="org_name" class="form-control mb-2" placeholder="Organization Name" required autocomplete="nope">
+        <input type="password" name="password" class="form-control mb-2" placeholder="Password" required autocomplete="new-password" id="passwordField">
+
+        <button type="submit" class="btn btn-submit w-100 mt-2">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Clear any pre-filled values on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Clear all form fields
+      var form = document.getElementById('loginForm');
+      var inputs = form.querySelectorAll('input');
+      inputs.forEach(function(input) {
+        if (input.type !== 'submit') {
+          input.value = '';
+        }
+      });
+      
+      // Focus on the first field
+      if (inputs.length > 0) {
+        inputs[2].focus(); // Skip the hidden fields
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+{
+    "rule_id": "rule-7344f5d8",
+    "created": "2025-10-03T08:27:57Z",
+    "source_alert_id": "68becdc8f880fcb3b22606e6",
+    "alert_type": "FULL_PORT_SCAN",
+    "src_ip": "10.129.5.193",
+    "dst_ip": null,
+    "protocol": "TCP/UDP",
+    "ports": [
+        "10000",
+        "10001",
+        "10002",
+        "10009",
+        "1007",
+        "10180",
+        "1022",
+        "1024",
+        "1025",
+        "1035",
+        "1037",
+        "10566",
+        "1077",
+        "10778",
+        "110"
+    ],
+    "ports_scanned_count": 15,
+    "duration": 9.6,
+    "cvss_score": 5.3,
+    "priority": "Medium",
+    "decision": {
+        "action": "block_ip",
+        "target": "10.129.5.193",
+        "reason": "Full Port Scan detected",
+        "confidence": "medium",
+        "expiry_seconds": 14400
+    },
+    "suggested_commands": [
+        "iptables -I INPUT -s 10.129.5.193 -j DROP # temp block",
+        "netsh advfirewall firewall add rule name=\"Block_10.129.5.193\" dir=in action=block remoteip=10.129.5.193"
+    ]
+}

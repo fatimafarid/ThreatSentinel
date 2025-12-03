@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IOC List - ThreatSentinel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-bg: #0a0a14;
+      --secondary-bg: #12121e;
+      --card-bg: #1a1a2e;
+      --accent-color: #ff6a00;
+      --accent-hover: #ff8533;
+      --text-primary: #ffffff;
+      --text-secondary: #b0b0b0;
+      --border-color: #2a2a3c;
+    }
+    
+    body {
+      background-color: var(--primary-bg);
+      color: var(--text-primary);
+      font-family: 'Montserrat', 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    /* Sidebar Styles - Increased width */
+    .sidebar {
+      width: 280px;
+      background-color: var(--secondary-bg);
+      padding: 1.5rem 1rem;
+      border-right: 1px solid var(--border-color);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      z-index: 100;
+    }
+    
+    .sidebar-header {
+      padding: 0 0.5rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 1rem;
+    }
+    
+    .sidebar-header h4 {
+      color: var(--text-primary);
+      font-weight: 700;
+      margin: 0;
+    }
+    
+    .sidebar-header span {
+      color: var(--accent-color);
+    }
+    
+    .nav-item {
+      margin: 8px 0;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-item:hover {
+      background-color: rgba(255, 106, 0, 0.1);
+    }
+    
+    .nav-link {
+      color: var(--text-secondary);
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      color: var(--text-primary);
+      background-color: var(--accent-color);
+    }
+    
+    .nav-link i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+    }
+    
+    /* Main Content Styles */
+    .main-content {
+      flex: 1;
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+    }
+    
+    .page-header {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .page-title {
+      color: var(--accent-color);
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    
+    .page-subtitle {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+    
+    /* Card Styles */
+    .card-custom {
+      background-color: var(--card-bg);
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    
+    .card-header-custom {
+      background-color: rgba(255, 106, 0, 0.1);
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .card-title {
+      color: var(--accent-color);
+      font-weight: 600;
+      margin: 0;
+      font-size: 1.1rem;
+    }
+    
+    .card-body {
+      padding: 1.5rem;
+    }
+    
+    /* Table Styles */
+    .table-container {
+      overflow-x: auto;
+      border-radius: 8px;
+    }
+    
+    .table-custom {
+      width: 100%;
+      color: var(--text-primary);
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    
+    .table-custom thead th {
+      background-color: rgba(255, 106, 0, 0.15);
+      color: var(--accent-color);
+      font-weight: 600;
+      padding: 1rem 0.75rem;
+      border-bottom: 2px solid var(--border-color);
+      position: sticky;
+      top: 0;
+    }
+    
+    .table-custom tbody tr {
+      transition: background-color 0.2s ease;
+    }
+    
+    .table-custom tbody tr:nth-child(even) {
+      background-color: rgba(255, 255, 255, 0.03);
+    }
+    
+    .table-custom tbody tr:hover {
+      background-color: rgba(255, 106, 0, 0.1);
+    }
+    
+    .table-custom td {
+      padding: 1rem 0.75rem;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    /* Label Styles */
+    .label {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      margin: 0.1rem;
+      font-weight: 500;
+    }
+    
+    .label-primary {
+      background-color: var(--accent-color);
+      color: white;
+    }
+    
+    .label-secondary {
+      background-color: #6c757d;
+      color: white;
+    }
+    
+    .label-success {
+      background-color: #198754;
+      color: white;
+    }
+    
+    .label-danger {
+      background-color: #dc3545;
+      color: white;
+    }
+    
+    .label-warning {
+      background-color: #ffc107;
+      color: black;
+    }
+    
+    .label-info {
+      background-color: #0dcaf0;
+      color: black;
+    }
+    
+    /* Search and Filter */
+    .search-box {
+      display: flex;
+      margin-bottom: 1rem;
+    }
+    
+    .search-input {
+      flex: 1;
+      background-color: var(--secondary-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 0.5rem 1rem;
+      border-radius: 6px 0 0 6px;
+      outline: none;
+    }
+    
+    .search-btn {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0 6px 6px 0;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .search-btn:hover {
+      background-color: var(--accent-hover);
+    }
+    
+    /* Pagination */
+    .pagination-custom {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+    }
+    
+    .page-link {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 0.5rem 0.75rem;
+      margin: 0 0.25rem;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+    
+    .page-link:hover {
+      background-color: var(--accent-color);
+      color: white;
+      border-color: var(--accent-color);
+    }
+    
+    .page-item.active .page-link {
+      background-color: var(--accent-color);
+      border-color: var(--accent-color);
+      color: white;
+    }
+    
+    /* Modal for Raw Logs - Improved */
+    .modal-content {
+      background-color: var(--card-bg);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      min-height: 70vh;
+    }
+    
+    .modal-header {
+      border-bottom: 1px solid var(--border-color);
+      background-color: rgba(255, 106, 0, 0.1);
+    }
+    
+    .modal-title {
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+    
+    .modal-footer {
+      border-top: 1px solid var(--border-color);
+    }
+    
+    .btn-close {
+      filter: invert(1);
+    }
+    
+    #logsContent {
+      font-family: 'Courier New', monospace;
+      font-size: 30px;
+      line-height: 1.5;
+      color: #f0f0f0;
+      background-color: #1e1e1e;
+      padding: 20px;
+      border-radius: 5px;
+      overflow: auto;
+      white-space: pre-wrap;
+      max-height: 60vh;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+      .app-container {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        height: auto;
+        padding: 1rem;
+      }
+      
+      .nav-items {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+      }
+      
+      .nav-item {
+        margin: 0 5px;
+        white-space: nowrap;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .main-content {
+        padding: 1rem;
+      }
+      
+      .table-custom thead {
+        display: none;
+      }
+      
+      .table-custom tbody tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+      }
+      
+      .table-custom td {
+        display: block;
+        text-align: right;
+        padding: 0.5rem 1rem;
+        position: relative;
+        padding-left: 50%;
+        max-width: none;
+        white-space: normal;
+        border-bottom: 1px solid var(--border-color);
+      }
+      
+      .table-custom td:last-child {
+        border-bottom: none;
+      }
+      
+      .table-custom td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 1rem;
+        width: calc(50% - 1rem);
+        padding-right: 1rem;
+        text-align: left;
+        font-weight: 600;
+        color: var(--accent-color);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h4>Threat<span>Sentinel</span></h4>
+      </div>
+      <div class="nav-items">
+        
+        <div class="nav-item">
+          <a href="infosec_main.html" class="nav-link">
+            <i class="fas fa-chart-dashboard"></i> Dashboard
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/infosec_ioc_list.html" class="nav-link active">
+            <i class="fas fa-list"></i> IOC List
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/infosec_alerts.html" class="nav-link">
+            <i class="fas fa-bell"></i> Alerts
+          </a>
+        </div>
+                <div class="nav-item"><a href="/infosec_notification.html" class="nav-link"><i class="fas fa-bell"></i> Notifications</a></div>
+        
+         <div class="nav-item">
+          <a href="infosec_report.html" class="nav-link">
+            <i class="fas fa-file-alt"></i> Report
+          </a>
+        </div>
+        
+        <div class="nav-item">
+          <a href="/infosec_settings.html" class="nav-link">
+            <i class="fas fa-cog"></i> Settings
+          </a>
+        </div>
+        <div class="nav-item">
+  <a href="{{ url_for('home') }}" class="nav-link">
+    <i class="fas fa-sign-out-alt"></i> Log Out
+  </a>
+</div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="page-header">
+        <h1 class="page-title">Indicator of Compromise (IOC) List</h1>
+        <p class="page-subtitle">All fetched IOCs from MongoDB</p>
+      </div>
+
+      <div class="search-box">
+        <input type="text" class="search-input" placeholder="Search IOCs...">
+        <button class="search-btn">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+
+      <div class="card-custom">
+        <div class="card-header-custom">
+          <h5 class="card-title">IOC Records</h5>
+          <div class="table-info">
+            Showing {{ ioc_data|length }} entries
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-container">
+            <table class="table-custom">
+              <thead>
+                <tr>
+                  <th>Bundle ID</th>
+                  <th>Type</th>
+                  <th>ID</th>
+                  <th>Created</th>
+                  <th>Modified</th>
+                  <th>Name</th>
+                  <th>IP Address</th>
+                  <th>Description</th>
+                  <th>Pattern</th>
+                  <th>Pattern Type</th>
+                  <th>Valid From</th>
+                  <th>Labels</th>
+                  <th>Raw Logs</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for ioc in ioc_data %}
+                <tr>
+                  <td data-label="Bundle ID">{{ ioc.bundle_id }}</td>
+                  <td data-label="Type">{{ ioc.type }}</td>
+                  <td data-label="ID">{{ ioc.id }}</td>
+                  <td data-label="Created">{{ ioc.created }}</td>
+                  <td data-label="Modified">{{ ioc.modified }}</td>
+                  <td data-label="Name">{{ ioc.name }}</td>
+                  <td data-label="IP Address">{{ ioc.ip_address }}</td>
+                  <td data-label="Description">{{ ioc.description }}</td>
+                  <td data-label="Pattern">{{ ioc.pattern }}</td>
+                  <td data-label="Pattern Type">{{ ioc.pattern_type }}</td>
+                  <td data-label="Valid From">{{ ioc.valid_from }}</td>
+                  <td data-label="Labels">
+                    {% if ioc.labels %}
+                      {% for label in ioc.labels %}
+                        <span class="label label-primary">{{ label }}</span>
+                      {% endfor %}
+                    {% else %}
+                      -
+                    {% endif %}
+                  </td>
+                  <td data-label="Raw Logs">
+                    {% if ioc.x_raw_logs %}
+                      <button class="btn btn-sm view-logs-btn" style="color: var(--accent-color);" data-bs-toggle="modal" data-bs-target="#logsModal" data-logs='{{ ioc.x_raw_logs|tojson }}'>
+                        <i class="fas fa-eye"></i> View
+                      </button>
+                    {% else %}
+                      -
+                    {% endif %}
+                  </td>
+                </tr>
+                {% else %}
+                <tr>
+                  <td colspan="13" class="text-center text-muted">⚠️ No IOC records found</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logs Modal - Improved with larger size -->
+  <div class="modal fade" id="logsModal" tabindex="-1" aria-labelledby="logsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="logsModalLabel">Raw Logs Viewer</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <pre id="logsContent"></pre>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="copyLogsToClipboard()">
+            <i class="fas fa-copy"></i> Copy
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Simple search functionality
+    document.querySelector('.search-btn').addEventListener('click', function() {
+      const searchText = document.querySelector('.search-input').value.toLowerCase();
+      const rows = document.querySelectorAll('.table-custom tbody tr');
+      
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        if (text.includes(searchText)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+    
+    // Allow pressing Enter to search
+    document.querySelector('.search-input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        document.querySelector('.search-btn').click();
+      }
+    });
+    
+    // Raw logs modal functionality
+    const logsModal = document.getElementById('logsModal');
+    if (logsModal) {
+      logsModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const logsData = button.getAttribute('data-logs');
+        const modalBody = logsModal.querySelector('#logsContent');
+        
+        try {
+          const logs = JSON.parse(logsData);
+          if (Array.isArray(logs)) {
+            modalBody.textContent = logs.join('\n');
+          } else {
+            modalBody.textContent = logsData;
+          }
+        } catch (e) {
+          modalBody.textContent = logsData;
+        }
+      });
+    }
+    
+    // Copy logs to clipboard function
+    function copyLogsToClipboard() {
+      const logsContent = document.getElementById('logsContent');
+      navigator.clipboard.writeText(logsContent.textContent)
+        .then(() => {
+          const copyButton = document.querySelector('.modal-footer .btn-primary');
+          const originalText = copyButton.innerHTML;
+          copyButton.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          
+          setTimeout(() => {
+            copyButton.innerHTML = originalText;
+          }, 2000);
+        })
+        .catch(err => {
+          console.error('Failed to copy: ', err);
+        });
+    }
+  </script>
+</body>
+</html>

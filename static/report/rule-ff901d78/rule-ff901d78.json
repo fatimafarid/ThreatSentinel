@@ -1,0 +1,41 @@
+{
+    "rule_id": "rule-ff901d78",
+    "created": "2025-09-27T20:26:51Z",
+    "source_alert_id": "68d67a9d69d1c4c3ff1b4d83",
+    "alert_type": "SERVICE_PROBE",
+    "src_ip": "34.107.221.82",
+    "dst_ip": null,
+    "protocol": "unknown",
+    "ports": [
+        "35468",
+        "35470",
+        "41022",
+        "41030",
+        "41040",
+        "41046",
+        "43026",
+        "43038",
+        "43054",
+        "45656",
+        "45662",
+        "46154",
+        "47194",
+        "47208",
+        "59268"
+    ],
+    "ports_scanned_count": 15,
+    "duration": 10.0,
+    "cvss_score": 6.4,
+    "priority": "Medium",
+    "decision": {
+        "action": "notify",
+        "target": "34.107.221.82",
+        "reason": "Monitoring only",
+        "confidence": "low",
+        "expiry_seconds": 14400
+    },
+    "suggested_commands": [
+        "iptables -I INPUT -s 34.107.221.82 -j DROP # temp block",
+        "netsh advfirewall firewall add rule name=\"Block_34.107.221.82\" dir=in action=block remoteip=34.107.221.82"
+    ]
+}

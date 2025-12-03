@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - ThreatSentinel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-bg: #0a0a14;
+      --secondary-bg: #12121e;
+      --card-bg: #1a1a2e;
+      --accent-color: #ff6a00;
+      --accent-hover: #ff8533;
+      --text-primary: #ffffff;
+      --text-secondary: #b0b0b0;
+      --border-color: #2a2a3c;
+      --compact-spacing: 0.8rem;
+    }
+    
+    body {
+      background-color: var(--primary-bg);
+      color: var(--text-primary);
+      font-family: 'Montserrat', 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    /* Sidebar Styles - Increased width */
+    .sidebar {
+      width: 280px;
+      background-color: var(--secondary-bg);
+      padding: 1.5rem 1rem;
+      border-right: 1px solid var(--border-color);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      z-index: 100;
+    }
+    
+    .sidebar-header {
+      padding: 0 0.5rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 1rem;
+    }
+    
+    .sidebar-header h4 {
+      color: var(--text-primary);
+      font-weight: 700;
+      margin: 0;
+    }
+    
+    .sidebar-header span {
+      color: var(--accent-color);
+    }
+    
+    .nav-item {
+      margin: 8px 0;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-item:hover {
+      background-color: rgba(255, 106, 0, 0.1);
+    }
+    
+    .nav-link {
+      color: var(--text-secondary);
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      color: var(--text-primary);
+      background-color: var(--accent-color);
+    }
+    
+    .nav-link i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+    }
+    
+    /* Main Content Styles */
+    .main-content {
+      flex: 1;
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+    }
+    
+    .page-header {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .page-title {
+      color: var(--accent-color);
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    
+    .page-subtitle {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+    
+    /* Card Styles */
+    .card-custom {
+      background-color: var(--card-bg);
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    
+    .card-header-custom {
+      background-color: rgba(255, 106, 0, 0.1);
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .card-title {
+      color: var(--accent-color);
+      font-weight: 600;
+      margin: 0;
+      font-size: 1.1rem;
+    }
+    
+    .card-body {
+      padding: 1.5rem;
+    }
+    
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+      color: var(--text-primary);
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    
+    .form-control {
+      background-color: var(--secondary-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px rgba(255, 106, 0, 0.2);
+    }
+    
+    .form-select {
+      background-color: var(--secondary-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      width: 100%;
+    }
+    
+    .btn-primary {
+      background-color: var(--accent-color);
+      border: none;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--accent-hover);
+    }
+    
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--accent-color);
+      color: var(--accent-color);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-outline:hover {
+      background-color: var(--accent-color);
+      color: white;
+    }
+    
+    /* Checkbox Styles */
+    .form-check {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .form-check-input {
+      width: 18px;
+      height: 18px;
+      margin-right: 0.75rem;
+      background-color: var(--secondary-bg);
+      border: 1px solid var(--border-color);
+    }
+    
+    .form-check-input:checked {
+      background-color: var(--accent-color);
+      border-color: var(--accent-color);
+    }
+    
+    .form-check-label {
+      color: var(--text-primary);
+    }
+    
+    /* Password Edit Form */
+    .password-edit-form {
+      display: none;
+      background-color: var(--secondary-bg);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      border: 1px solid var(--border-color);
+    }
+    
+    /* Session Timeout Warning Modal */
+    #sessionTimeoutModal .modal-content {
+      background-color: var(--card-bg);
+      color: var(--text-primary);
+      border: 1px solid var(--accent-color);
+    }
+    
+    #sessionTimeoutModal .modal-header {
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    #sessionTimeoutModal .modal-footer {
+      border-top: 1px solid var(--border-color);
+    }
+    
+    /* Session List Styles */
+    .session-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .session-item:last-child {
+      border-bottom: none;
+    }
+    
+    .session-info {
+      flex: 1;
+    }
+    
+    .session-name {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    
+    .session-details {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+    
+    .current-session {
+      background-color: rgba(255, 106, 0, 0.1);
+      border-left: 3px solid var(--accent-color);
+    }
+    
+    /* Compact View Styles */
+    body.compact-view .main-content {
+      padding: var(--compact-spacing);
+    }
+    
+    body.compact-view .card-custom {
+      margin-bottom: var(--compact-spacing);
+    }
+    
+    body.compact-view .card-body {
+      padding: var(--compact-spacing);
+    }
+    
+    body.compact-view .card-header-custom {
+      padding: 0.75rem var(--compact-spacing);
+    }
+    
+    body.compact-view .form-group {
+      margin-bottom: var(--compact-spacing);
+    }
+    
+    body.compact-view .page-header {
+      margin-bottom: var(--compact-spacing);
+      padding-bottom: 0.75rem;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+      .app-container {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        height: auto;
+        padding: 1rem;
+      }
+      
+      .nav-items {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+      }
+      
+      .nav-item {
+        margin: 0 5px;
+        white-space: nowrap;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .main-content {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h4>Threat<span>Sentinel</span></h4>
+      </div>
+      <div class="nav-items">
+       
+        <div class="nav-item">
+          <a href="infosec_main.html" class="nav-link">
+            <i class="fas fa-chart-dashboard"></i> Dashboard
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/infosec_ioc_list.html" class="nav-link">
+            <i class="fas fa-list"></i> IOC List
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/infosec_alerts.html" class="nav-link">
+            <i class="fas fa-bell"></i> Alerts
+          </a>
+        </div>
+        <div class="nav-item"><a href="/infosec_notification.html" class="nav-link"><i class="fas fa-bell"></i> Notifications</a></div>
+        
+         <div class="nav-item">
+          <a href="infosec_report.html" class="nav-link">
+            <i class="fas fa-file-alt"></i> Report
+          </a>
+        </div>
+        
+        <div class="nav-item">
+          <a href="infosec_settings.html" class="nav-link active">
+            <i class="fas fa-cog"></i> Settings
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="{{ url_for('home') }}" class="nav-link">
+            <i class="fas fa-sign-out-alt"></i> Log Out
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="page-header">
+        <h1 class="page-title">Settings</h1>
+        <p class="page-subtitle">Manage your account and application preferences</p>
+      </div>
+
+      <!-- User Account Settings -->
+      <div class="card-custom">
+        <div class="card-header-custom">
+          <h5 class="card-title">User Account Settings</h5>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <div class="d-flex align-items-center">
+              <span class="me-3">••••••••</span>
+              <button class="btn btn-outline" id="editPasswordBtn">Edit</button>
+            </div>
+            
+            <div class="password-edit-form" id="passwordEditForm">
+              <div class="form-group">
+                <label class="form-label">Current Password</label>
+                <input type="password" class="form-control" id="currentPassword">
+              </div>
+              <div class="form-group">
+                <label class="form-label">New Password</label>
+                <input type="password" class="form-control" id="newPassword">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Confirm New Password</label>
+                <input type="password" class="form-control" id="confirmPassword">
+              </div>
+              <button class="btn btn-primary" id="savePasswordBtn">Save Changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Security Settings -->
+      <div class="card-custom">
+        <div class="card-header-custom">
+          <h5 class="card-title">Security Settings</h5>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label class="form-label">Session Timeout (minutes)</label>
+            <select class="form-select" id="sessionTimeout">
+              <option value="5">5 minutes</option>
+              <option value="15" selected>15 minutes</option>
+              <option value="30">30 minutes</option>
+              <option value="60">60 minutes</option>
+              <option value="120">120 minutes</option>
+            </select>
+          </div>
+          
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="loginAlerts">
+            <label class="form-check-label" for="loginAlerts">
+              Enable Login Alerts
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Sessions -->
+      <div class="card-custom">
+        <div class="card-header-custom">
+          <h5 class="card-title">Active Sessions</h5>
+        </div>
+        <div class="card-body" id="sessionsList">
+          <!-- Sessions will be dynamically added here -->
+        </div>
+      </div>
+
+      <!-- Display Settings -->
+      <div class="card-custom">
+        <div class="card-header-custom">
+          <h5 class="card-title">Display Settings</h5>
+        </div>
+        <div class="card-body">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="brightMode">
+            <label class="form-check-label" for="brightMode">
+              Enable Bright Mode (changes background to white across all pages)
+            </label>
+          </div>
+          
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="compactView">
+            <label class="form-check-label" for="compactView">
+              Compact View (reduces spacing for more content visibility)
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Session Timeout Warning Modal -->
+  <div class="modal fade" id="sessionTimeoutModal" tabindex="-1" aria-labelledby="sessionTimeoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="sessionTimeoutModalLabel">Session Timeout Warning</h5>
+        </div>
+        <div class="modal-body">
+          <p>Your session is about to expire due to inactivity. You will be automatically logged out in <span id="countdown">60</span> seconds.</p>
+          <p>Would you like to continue your session?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="logoutNowBtn">Log Out Now</button>
+          <button type="button" class="btn btn-primary" id="continueSessionBtn">Continue Session</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Session timeout variables
+    let inactivityTimer;
+    let countdownTimer;
+    let sessionTimeoutMinutes = 15; // Default value
+    let warningDisplayed = false;
+
+    // Initialize session timeout functionality
+    function initSessionTimeout() {
+      // Get session timeout value from settings
+      const savedTimeout = localStorage.getItem('sessionTimeout');
+      if (savedTimeout) {
+        sessionTimeoutMinutes = parseInt(savedTimeout);
+        document.getElementById('sessionTimeout').value = savedTimeout;
+      }
+      
+      // Reset the timer on any user activity
+      const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
+      events.forEach(event => {
+        document.addEventListener(event, resetInactivityTimer, true);
+      });
+      
+      // Start the inactivity timer
+      resetInactivityTimer();
+    }
+
+    // Reset the inactivity timer
+    function resetInactivityTimer() {
+      clearTimeout(inactivityTimer);
+      clearInterval(countdownTimer);
+      
+      // Set timeout based on user preference
+      const timeoutMs = sessionTimeoutMinutes * 60 * 1000;
+      const warningTime = 60000; // Show warning 1 minute before timeout
+      
+      inactivityTimer = setTimeout(() => {
+        showSessionWarning();
+      }, timeoutMs - warningTime);
+    }
+
+    // Show session timeout warning
+    function showSessionWarning() {
+      warningDisplayed = true;
+      const modal = new bootstrap.Modal(document.getElementById('sessionTimeoutModal'));
+      modal.show();
+      
+      let countdown = 60;
+      document.getElementById('countdown').textContent = countdown;
+      
+      countdownTimer = setInterval(() => {
+        countdown--;
+        document.getElementById('countdown').textContent = countdown;
+        
+        if (countdown <= 0) {
+          clearInterval(countdownTimer);
+          logoutUser();
+        }
+      }, 1000);
+    }
+
+    // Logout user
+    function logoutUser() {
+      // Clear any timers
+      clearTimeout(inactivityTimer);
+      clearInterval(countdownTimer);
+      
+      // Remove current session from active sessions
+      const currentSessionId = localStorage.getItem('currentSessionId');
+      if (currentSessionId) {
+        removeSession(currentSessionId);
+      }
+      
+      
+      console.log('Logging out user due to inactivity');
+      
+      // Redirect to login page
+      window.location.href = "{{ url_for('home') }}";
+    }
+
+    // Continue session button handler
+    document.getElementById('continueSessionBtn').addEventListener('click', function() {
+      // Hide the modal
+      const modal = bootstrap.Modal.getInstance(document.getElementById('sessionTimeoutModal'));
+      modal.hide();
+      
+      // Reset the inactivity timer
+      resetInactivityTimer();
+      
+      // Reset warning flag
+      warningDisplayed = false;
+      
+      // Send request to server to extend session
+      fetch('/extend_session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (!data.success) {
+          console.error('Failed to extend session:', data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Error extending session:', error);
+      });
+    });
+
+    // Logout now button handler
+    document.getElementById('logoutNowBtn').addEventListener('click', function() {
+      logoutUser();
+    });
+
+    // Password edit functionality
+    document.getElementById('editPasswordBtn').addEventListener('click', function() {
+      const form = document.getElementById('passwordEditForm');
+      if (form.style.display === 'block') {
+        form.style.display = 'none';
+        this.textContent = 'Edit';
+      } else {
+        form.style.display = 'block';
+        this.textContent = 'Cancel';
+      }
+    });
+
+    // Save password functionality
+    document.getElementById('savePasswordBtn').addEventListener('click', function() {
+      const currentPassword = document.getElementById('currentPassword').value;
+      const newPassword = document.getElementById('newPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      
+      // Basic validation
+      if (!currentPassword || !newPassword || !confirmPassword) {
+        alert('Please fill in all password fields');
+        return;
+      }
+      
+      if (newPassword !== confirmPassword) {
+        alert('New passwords do not match');
+        return;
+      }
+      
+      // Send request to server to update password
+      fetch('/change_password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          currentPassword: currentPassword,
+          newPassword: newPassword
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('Password updated successfully!');
+          
+          // Reset form and hide it
+          document.getElementById('currentPassword').value = '';
+          document.getElementById('newPassword').value = '';
+          document.getElementById('confirmPassword').value = '';
+          document.getElementById('passwordEditForm').style.display = 'none';
+          document.getElementById('editPasswordBtn').textContent = 'Edit';
+        } else {
+          alert('Error: ' + data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while updating password');
+      });
+    });
+
+    // Function to send login alert email
+    function sendLoginAlertEmail(deviceInfo) {
+      // In a real implementation, you would get the email from the server
+      const userEmail = "user@example.com"; // This would come from your backend
+      console.log(`Sending login alert email to ${userEmail} for new login from ${deviceInfo}`);
+      
+      // In a real implementation, you would call your email API here
+      fetch('/send_login_alert', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: userEmail,
+          deviceInfo: deviceInfo,
+          timestamp: new Date().toLocaleString()
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          console.log('Login alert email sent successfully');
+        } else {
+          console.error('Failed to send login alert email:', data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Error sending login alert email:', error);
+      });
+    }
+
+    // Function to get device information
+    function getDeviceInfo() {
+      const userAgent = navigator.userAgent;
+      let deviceInfo = '';
+      
+      // Detect browser
+      if (userAgent.includes('Chrome')) deviceInfo += 'Chrome, ';
+      else if (userAgent.includes('Firefox')) deviceInfo += 'Firefox, ';
+      else if (userAgent.includes('Safari')) deviceInfo += 'Safari, ';
+      else if (userAgent.includes('Edge')) deviceInfo += 'Edge, ';
+      
+      // Detect OS
+      if (userAgent.includes('Windows')) deviceInfo += 'Windows';
+      else if (userAgent.includes('Mac')) deviceInfo += 'Mac';
+      else if (userAgent.includes('Linux')) deviceInfo += 'Linux';
+      else if (userAgent.includes('Android')) deviceInfo += 'Android';
+      else if (userAgent.includes('iOS')) deviceInfo += 'iOS';
+      else deviceInfo += 'Unknown Device';
+      
+      return deviceInfo;
+    }
+
+    // Function to create a new session
+    function createNewSession() {
+      const deviceInfo = getDeviceInfo();
+      const sessionId = 'session-' + Date.now();
+      const session = {
+        id: sessionId,
+        device: deviceInfo,
+        location: 'Unknown Location', // Would be determined by IP in a real implementation
+        loginTime: new Date().toLocaleString(),
+        current: true
+      };
+      
+      // Store current session ID
+      localStorage.setItem('currentSessionId', sessionId);
+      
+      // Get existing sessions
+      let sessions = JSON.parse(localStorage.getItem('activeSessions') || '[]');
+      
+      // Check if login alerts are enabled
+      const loginAlertsEnabled = localStorage.getItem('loginAlerts') === 'true';
+      
+      // If this is a new device and alerts are enabled, send notification
+      const isNewDevice = !sessions.some(s => s.device === deviceInfo);
+      if (isNewDevice && loginAlertsEnabled) {
+        sendLoginAlertEmail(deviceInfo);
+      }
+      
+      // Add new session
+      sessions.push(session);
+      localStorage.setItem('activeSessions', JSON.stringify(sessions));
+      
+      return sessionId;
+    }
+
+    // Function to remove a session
+    function removeSession(sessionId) {
+      let sessions = JSON.parse(localStorage.getItem('activeSessions') || '[]');
+      sessions = sessions.filter(session => session.id !== sessionId);
+      localStorage.setItem('activeSessions', JSON.stringify(sessions));
+      renderSessions();
+    }
+
+    // Function to render active sessions
+    function renderSessions() {
+      const sessionsList = document.getElementById('sessionsList');
+      const sessions = JSON.parse(localStorage.getItem('activeSessions') || '[]');
+      const currentSessionId = localStorage.getItem('currentSessionId');
+      
+      sessionsList.innerHTML = '';
+      
+      if (sessions.length === 0) {
+        sessionsList.innerHTML = '<p class="text-center text-muted">No active sessions</p>';
+        return;
+      }
+      
+      sessions.forEach(session => {
+        const sessionItem = document.createElement('div');
+        sessionItem.className = `session-item ${session.id === currentSessionId ? 'current-session' : ''}`;
+        
+        sessionItem.innerHTML = `
+          <div class="session-info">
+            <div class="session-name">${session.device}</div>
+            <div class="session-details">
+              ${session.location} • ${session.loginTime}
+              ${session.id === currentSessionId ? '<span class="badge bg-accent ms-2">Current</span>' : ''}
+            </div>
+          </div>
+          ${session.id !== currentSessionId ? 
+            `<button class="btn btn-outline btn-sm" onclick="removeSession('${session.id}')">Revoke</button>` : 
+            ''}
+        `;
+        
+        sessionsList.appendChild(sessionItem);
+      });
+    }
+
+    // Compact view functionality
+    function applyCompactView(isCompact) {
+      if (isCompact) {
+        document.body.classList.add('compact-view');
+      } else {
+        document.body.classList.remove('compact-view');
+      }
+    }
+
+    // Function to save settings to database
+    function saveSettingToDB(settingType, value) {
+      fetch('/update_settings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: settingType,
+          value: value
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (!data.success) {
+          console.error('Failed to save setting:', data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Error saving setting:', error);
+      });
+    }
+
+    // Bright mode functionality
+    document.getElementById('brightMode').addEventListener('change', function() {
+      if (this.checked) {
+        document.documentElement.style.setProperty('--primary-bg', '#ffffff');
+        document.documentElement.style.setProperty('--secondary-bg', '#f8f9fa');
+        document.documentElement.style.setProperty('--card-bg', '#ffffff');
+        document.documentElement.style.setProperty('--text-primary', '#212529');
+        document.documentElement.style.setProperty('--text-secondary', '#6c757d');
+        document.documentElement.style.setProperty('--border-color', '#dee2e6');
+      } else {
+        document.documentElement.style.setProperty('--primary-bg', '#0a0a14');
+        document.documentElement.style.setProperty('--secondary-bg', '#12121e');
+        document.documentElement.style.setProperty('--card-bg', '#1a1a2e');
+        document.documentElement.style.setProperty('--text-primary', '#ffffff');
+        document.documentElement.style.setProperty('--text-secondary', '#b0b0b0');
+        document.documentElement.style.setProperty('--border-color', '#2a2a3c');
+      }
+      
+      // Save preference to localStorage
+      localStorage.setItem('brightMode', this.checked);
+    });
+
+    // Session timeout change handler
+    document.getElementById('sessionTimeout').addEventListener('change', function() {
+      const newTimeout = parseInt(this.value);
+      localStorage.setItem('sessionTimeout', newTimeout);
+      sessionTimeoutMinutes = newTimeout;
+      
+      // Reset the timer with the new value
+      if (!warningDisplayed) {
+        resetInactivityTimer();
+      }
+      
+      // Save to server
+      saveSettingToDB('sessionTimeout', newTimeout);
+    });
+
+    // Load saved preferences on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize session timeout functionality
+      initSessionTimeout();
+      
+      // Create a new session if none exists
+      if (!localStorage.getItem('currentSessionId')) {
+        createNewSession();
+      }
+      
+      // Render active sessions
+      renderSessions();
+      
+      // Load bright mode preference
+      const brightModeEnabled = localStorage.getItem('brightMode') === 'true';
+      document.getElementById('brightMode').checked = brightModeEnabled;
+      if (brightModeEnabled) {
+        document.getElementById('brightMode').dispatchEvent(new Event('change'));
+      }
+      
+      // Load compact view preference and apply it
+      const compactViewEnabled = localStorage.getItem('compactView') === 'true';
+      document.getElementById('compactView').checked = compactViewEnabled;
+      applyCompactView(compactViewEnabled);
+      
+      // Load other preferences
+      const loginAlerts = localStorage.getItem('loginAlerts') === 'true';
+      document.getElementById('loginAlerts').checked = loginAlerts;
+    });
+
+    // Save settings when changed
+    document.getElementById('loginAlerts').addEventListener('change', function() {
+      localStorage.setItem('loginAlerts', this.checked);
+      saveSettingToDB('loginAlerts', this.checked);
+    });
+    
+    document.getElementById('compactView').addEventListener('change', function() {
+      localStorage.setItem('compactView', this.checked);
+      saveSettingToDB('compactView', this.checked);
+      applyCompactView(this.checked);
+    });
+
+    // Make removeSession function available globally
+    window.removeSession = removeSession;
+  </script>
+</body>
+</html>

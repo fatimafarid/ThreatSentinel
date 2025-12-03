@@ -1,0 +1,25 @@
+{
+    "rule_id": "rule-4259c9f7",
+    "created": "2025-10-03T08:27:57Z",
+    "source_alert_id": "68da5f7beb78af61a6c8e26f",
+    "alert_type": "BROADCAST_SPOOF",
+    "src_ip": "10.66.201.193",
+    "dst_ip": "10.66.201.193",
+    "protocol": "unknown",
+    "ports": [],
+    "ports_scanned_count": 0,
+    "duration": 96.8,
+    "cvss_score": 6.4,
+    "priority": "Medium",
+    "decision": {
+        "action": "notify",
+        "target": "10.66.201.193",
+        "reason": "Monitoring only",
+        "confidence": "low",
+        "expiry_seconds": 14400
+    },
+    "suggested_commands": [
+        "iptables -I INPUT -s 10.66.201.193 -j DROP # temp block",
+        "netsh advfirewall firewall add rule name=\"Block_10.66.201.193\" dir=in action=block remoteip=10.66.201.193"
+    ]
+}

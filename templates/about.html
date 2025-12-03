@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Us | Threat Sentinel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body {
+      font-family: 'Merriweather', serif;
+      font-size: 18px; /* Increased for overall readability */
+      background: radial-gradient(circle, #2a0e00 0%, #000 70%);
+      color: white;
+      padding-bottom: 40px;
+    }
+
+    .navbar-custom {
+      background: #1a1a1a;
+      padding: 15px 20px;
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 2.5rem;
+      color: #fff !important;
+    }
+
+    .nav-link {
+      color: #ddd !important;
+      font-weight: 700;
+      margin-right: 20px;
+      font-size: 2.5rem;
+    }
+
+    .nav-link:hover {
+      color: #fff !important;
+    }
+
+    .btn-login {
+      background-color: transparent;
+      color: #ffa726;
+      border: 1px solid #ffa726;
+      border-radius: 20px;
+      padding: 8px 20px;
+      font-weight: 700;
+      font-size: 2.5rem;
+    }
+
+    .btn-login:hover {
+      background-color: #ffa726;
+      color: #000;
+    }
+
+    h2, h4 {
+      color: #ffa726;
+    }
+
+    .section-title {
+      border-bottom: 2px solid #ffa726;
+      padding-bottom: 10px;
+      margin: 30px 0 20px;
+      font-size: 2.8rem; /* Increased heading size */
+    }
+
+    ul {
+      padding-left: 20px;
+      font-size: 1.4rem; /* Increased bullet point text */
+    }
+
+    li {
+      margin-bottom: 12px;
+    }
+
+    .policy-box {
+      background-color: rgba(255,255,255,0.05);
+      border-left: 4px solid #ffa726;
+      padding: 25px;
+      border-radius: 10px;
+      margin-top: 30px;
+      font-size: 1.4rem; /* Increased policy text size */
+    }
+
+    .policy-box h4 {
+      font-size: 2.2rem; /* Bigger policy heading */
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">Threat Sentinel</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav me-3">
+          <li class="nav-item"><a class="nav-link" href="Home.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="features.html">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="news.html">News</a></li>
+          <li class="nav-item"><a class="nav-link" href="Events.html">Events</a></li>
+          <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+        </ul>
+        <a class="btn btn-login" href="login.html">Login / Signup</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- About Content -->
+  <div class="container mt-4">
+    <h2 class="section-title">🌐 OUR AREAS OF FOCUS</h2>
+    <ul>
+      <li><strong>ALGORITHM & INTELLIGENCE:</strong> Oversees the sharing algorithm and platform to incentivize valuable sharing.</li>
+      <li><strong>MEMBERSHIP:</strong> Supports new member recruitment and reviews all membership applications for approval.</li>
+      <li><strong>COMMUNICATIONS:</strong> Informs marketing and PR activities in support of the Threat Sentinel’s mission and objectives.</li>
+      <li><strong>PUBLIC POLICY & STANDARDS:</strong> Serves as an advocacy arm to inform policy initiatives.</li>
+      <li><strong>FINANCE & AUDIT:</strong> Provides budget oversight and serves an internal audit function.</li>
+      <li><strong>SECURITY & OPERATIONS:</strong> Enhances and secures the CTA Platform and infrastructure.</li>
+    </ul>
+
+    <div class="policy-box">
+      <h4>🛡️ THREAT SENTINEL POLICIES</h4>
+      <p>
+        Our system is designed to strengthen cybersecurity awareness and resilience for organizations. Staying aligned with this goal, our platform focuses on identifying, analyzing, and prioritizing software and network vulnerabilities using CVSS scoring.
+      </p>
+      <p>
+        We ensure responsible sharing of threat intelligence through IOCs and automate rule generation to support rapid, secure responses. Our approach emphasizes proactive defense and clear communication to help organizations tackle threats before they escalate.
+      </p>
+    </div>
+  </div>
+
+</body>
+</html>

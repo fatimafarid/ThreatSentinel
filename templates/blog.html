@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Threat Sentinel - Blog</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- ADD THESE TWO LINES -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body {
+      font-family: 'Merriweather', serif;
+      background: radial-gradient(circle, #2a0e00 0%, #000 70%);
+      color: white;
+      padding-bottom: 40px;
+      font-size: 18px;
+    }
+
+    .navbar-custom {
+      background: #1a1a1a;
+      padding: 15px 20px;
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 2.5rem;
+      color: #fff !important;
+    }
+
+    .nav-link {
+      color: #ddd !important;
+      font-weight: 700;
+      margin-right: 20px;
+      font-size: 2.5rem;
+    }
+
+    .nav-link:hover {
+      color: #fff !important;
+    }
+
+    .btn-login {
+      background-color: transparent;
+      color: #ffa726;
+      border: 1px solid #ffa726;
+      border-radius: 20px;
+      padding: 8px 20px;
+      font-weight: 700;
+      font-size: 2.5rem;
+    }
+
+    .btn-login:hover {
+      background-color: #ffa726;
+      color: #000;
+    }
+
+    /* Blog Section */
+    .blog-container {
+      background: #121212;
+      border-left: 4px solid #ffa726;
+      padding: 25px;
+      margin-bottom: 25px;
+      border-radius: 12px;
+      transition: background 0.3s;
+      font-size: 1.4rem; /* Reduced from 2.5rem to match content size */
+    }
+    .blog-container:hover {
+      background: #1d1d1d;
+    }
+
+    /* Pagination */
+    .pagination .page-link {
+      background-color: #1a1a1a;
+      color: #ffa726;
+      border-color: #ffa726;
+      font-size: 1.4rem;
+    }
+    .pagination .page-link:hover {
+      background-color: #ffa726;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">Threat Sentinel</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav me-3">
+          <li class="nav-item"><a class="nav-link" href="Home.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="features.html">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="news.html">News</a></li>
+          <li class="nav-item"><a class="nav-link" href="Events.html">Events</a></li>
+          <li class="nav-item"><a class="nav-link active" href="blog.html">Blog</a></li>
+        </ul>
+        <a class="btn btn-login" href="login.html">Login / Signup</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <h2 class="text-warning mb-4" style="font-size: 3.5rem;">📝 Blog</h2>
+
+    <!-- PAGE 1 -->
+    <a href="blog-post3.html" style="text-decoration: none; color: inherit;">
+      <div class="blog-container mb-4">
+        <h4>Guests Blog</h4>
+        <p><strong>Why CVSS Scoring Still Matters</strong></p>
+        <p>In cybersecurity, prioritization is everything. CVSS scoring in our system helps organizations assess how dangerous a threat is and act accordingly...</p>
+      </div>
+    </a>
+
+    <a href="blog-post4.html" style="text-decoration: none; color: inherit;">
+      <div class="blog-container">
+        <h4>Threat Sentinel News</h4>
+        <p><strong>Real-Time IOC Sharing: How It Protects Your Network</strong></p>
+        <p>Sharing Indicators of Compromise (IOCs) between systems and teams is one of the smartest ways to build collective defense...</p>
+      </div>
+    </a>
+
+    <a href="blog-post5.html" style="text-decoration: none; color: inherit;">
+      <div class="blog-container">
+        <h4>The Industry Speaks</h4>
+        <p><strong>Automation is the New Cyber Defense Strategy</strong></p>
+        <p>Manual responses just can't keep up anymore. That's why our platform automates rule generation for rapid response...</p>
+      </div>
+    </a>
+
+    <a href="blog-post6.html" style="text-decoration: none; color: inherit;">
+      <div class="blog-container">
+        <h4>From the Dev Team</h4>
+        <p><strong>A Centralized Dashboard for Smarter Security Decisions</strong></p>
+        <p>Visibility leads to action. With a single dashboard to view severity and IOCs, admins can make faster, informed decisions...</p>
+      </div>
+    </a>
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center mt-4">
+        <li class="page-item disabled"><a class="page-link">Previous</a></li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="blog-post2.html">2</a></li>
+        <li class="page-item"><a class="page-link" href="blog-post2.html">Next</a></li>
+      </ul>
+    </nav>
+  </div>
+
+</body>
+</html>

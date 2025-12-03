@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ThreatSentinel - Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    :root {
+      --primary-bg: #0a0a14;
+      --secondary-bg: #12121e;
+      --card-bg: #1a1a2e;
+      --accent-color: #ff6a00;
+      --accent-hover: #ff8533;
+      --text-primary: #ffffff;
+      --text-secondary: #b0b0b0;
+      --border-color: #2a2a3c;
+    }
+    body { background-color: var(--primary-bg); color: var(--text-primary); font-family: 'Montserrat', 'Segoe UI', sans-serif; margin: 0; padding: 0; }
+    .app-container { display: flex; min-height: 100vh; }
+    .sidebar { width: 280px; background-color: var(--secondary-bg); padding: 1.5rem 1rem; border-right: 1px solid var(--border-color); box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); z-index: 100; }
+    .sidebar-header { padding: 0 0.5rem 1.5rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1rem; }
+    .sidebar-header h4 { color: var(--text-primary); font-weight: 700; margin: 0; }
+    .sidebar-header span { color: var(--accent-color); }
+    .nav-item { margin: 8px 0; border-radius: 6px; transition: all 0.3s ease; }
+    .nav-item:hover { background-color: rgba(255, 106, 0, 0.1); }
+    .nav-link { color: var(--text-secondary); padding: 0.75rem 1rem; text-decoration: none; display: flex; align-items: center; border-radius: 6px; transition: all 0.3s ease; }
+    .nav-link:hover, .nav-link.active { color: var(--text-primary); background-color: var(--accent-color); }
+    .nav-link i { margin-right: 10px; width: 20px; text-align: center; }
+    .main-content { flex: 1; padding: 1.5rem 2rem; overflow-y: auto; }
+    .card-custom { background-color: #141414; padding: 1rem; border-radius: 12px; border: 1px solid #2a2a2a; }
+    .stat-box { background-color: #1a1a1a; border-radius: 10px; padding: 1rem; text-align: center; border: 1px solid #2a2a2a; }
+    .stat-box h4 { color: #ffffff; margin-top: 10px; }
+    .chart-box { background: #1a1a1a; border-radius: 10px; padding: 1rem; border: 1px solid #2a2a2a; }
+    .label { font-size: 12px; padding: 2px 8px; border-radius: 5px; }
+    .label-critical { background-color: red; color: white; }
+    .label-medium { background-color: orange; color: white; }
+    .label-low { background-color: green; color: white; }
+    
+    /* Organization name white color */
+    .organization-name {
+      color: var(--text-primary) !important;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Improved Popup Styles */
+    .alert-popup {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #ff4444;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+        z-index: 10000;
+        max-width: 400px;
+        border-left: 5px solid #cc0000;
+        animation: slideIn 0.5s ease-out;
+    }
+
+    .alert-popup.warning {
+        background: #ff9800;
+        border-left-color: #f57c00;
+    }
+
+    .alert-popup.info {
+        background: #2196F3;
+        border-left-color: #1976D2;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    .alert-popup.fade-out {
+        animation: fadeOut 0.5s ease-in forwards;
+    }
+
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+    }
+
+    .alert-content {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .alert-icon {
+        font-size: 1.5em;
+    }
+
+    .alert-message {
+        flex: 1;
+    }
+
+    .alert-close {
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+        font-size: 1.2em;
+    }
+
+    @media (max-width: 992px) {
+      .app-container { flex-direction: column; }
+      .sidebar { width: 100%; height: auto; padding: 1rem; }
+      .nav-items { display: flex; overflow-x: auto; padding-bottom: 0.5rem; }
+      .nav-item { margin: 0 5px; white-space: nowrap; }
+      .alert-popup {
+          right: 10px;
+          left: 10px;
+          max-width: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h4>Threat<span>Sentinel</span></h4>
+      </div>
+     
+      <div class="nav-items">
+        
+        <div class="nav-item"><a href="infosec_main.html" class="nav-link active"><i class="fas fa-chart-dashboard"></i> Dashboard</a></div>
+        <div class="nav-item"><a href="/infosec_ioc_list.html" class="nav-link"><i class="fas fa-list"></i> IOC List</a></div>
+        <div class="nav-item"><a href="/infosec_alerts.html" class="nav-link"><i class="fas fa-bell"></i> Alerts</a></div>
+                <div class="nav-item"><a href="/infosec_notification.html" class="nav-link"><i class="fas fa-bell"></i> Notifications</a></div>
+<div class="nav-item">
+          <a href="infosec_report.html" class="nav-link">
+            <i class="fas fa-file-alt"></i> Report
+          </a>
+        </div>
+        <div class="nav-item"><a href="/infosec_settings.html" class="nav-link"><i class="fas fa-cog"></i> Settings</a></div>
+        <div class="nav-item"><a href="{{ url_for('logout') }}" class="nav-link"><i class="fas fa-sign-out-alt"></i> Log Out</a></div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <h3>{{ dashboard_title }}</h3>
+      <p class="organization-name">{{ organization }}</p>
+      
+      <div class="row text-center mb-4 g-3">
+<div class="col-md-3 stat-box"><div class="text-warning">Total Alerts</div><h4>{{ total_alerts }}</h4><small class="text-danger">-12%</small></div>
+        
+      </div>
+
+      <div class="row mb-4 g-3">
+        <div class="col-md-8">
+          <div class="chart-box">
+            <h6 class="text-warning">Alerts By Count</h6>
+            <div id="alertsChart" style="height:400px;"></div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="chart-box">
+            <h6 class="text-warning">IOC Created Over Time</h6>
+            <div id="iocChart" style="height:300px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-md-8">
+          <div class="card-custom">
+            <h6 class="text-warning">CVSS Scores (Top 6 Unique Attacks)</h6>
+            <ul class="list-unstyled">
+              {% for item in cvss_data %}
+              <li class="d-flex justify-content-between py-2 border-bottom">
+                <span>{{ item.attack_type }} - Score: {{ item.cvss_score }}</span>
+                {% if item.priority == "Critical" %}
+                  <span class="label label-critical">{{ item.priority }}</span>
+                {% elif item.priority == "Medium" %}
+                  <span class="label label-medium">{{ item.priority }}</span>
+                {% else %}
+                  <span class="label label-low">{{ item.priority }}</span>
+                {% endif %}
+              </li>
+              {% else %}
+              <li>No CVSS data found</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Alerts chart
+  var alertsData = {{ alerts_chart_data|safe }};
+  var traceAlerts = {
+    x: alertsData.types,
+    y: alertsData.counts,
+    type: 'bar',
+    marker: {color: 'orange'}
+  };
+  var layoutAlerts = {
+    paper_bgcolor: '#1a1a1a',
+    plot_bgcolor: '#1a1a1a',
+    font: {color: '#ffffff'},
+    margin: {t:30, l:40, r:20, b:40}
+  };
+  Plotly.newPlot('alertsChart', [traceAlerts], layoutAlerts);
+
+  // IOC Created Over Time chart
+  var iocTimeData = {{ ioc_time_chart_data|safe }};
+  var traceIOC = {
+    x: iocTimeData.dates,
+    y: iocTimeData.counts,
+    type: 'scatter',
+    mode: 'lines+markers',
+    line: {color: 'lime'}
+  };
+  var layoutIOC = {
+    paper_bgcolor: '#1a1a1a',
+    plot_bgcolor: '#1a1a1a',
+    font: {color: '#ffffff'},
+    margin: {t:30, l:40, r:20, b:40}
+  };
+  Plotly.newPlot('iocChart', [traceIOC], layoutIOC);
+</script>
+
+<!-- FIXED Alert Popup System - Only shows for NEW alerts -->
+<script>
+let shownAlertIds = new Set(); // Track which alerts we've already shown
+let lastCheckTime = null;
+
+function showAlertPopup(alertData) {
+    // Don't show if we've already shown this alert
+    if (shownAlertIds.has(alertData.id)) {
+        return;
+    }
+    
+    // Add to shown alerts
+    shownAlertIds.add(alertData.id);
+    
+    // Remove existing popups
+    const existingPopups = document.querySelectorAll('.alert-popup');
+    existingPopups.forEach(popup => popup.remove());
+    
+    const popup = document.createElement('div');
+    popup.className = `alert-popup ${alertData.type || 'critical'}`;
+    
+    popup.innerHTML = `
+        <div class="alert-content">
+            <div class="alert-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="alert-message">
+                <strong>🚨 Security Alert!</strong><br>
+                <small>${new Date().toLocaleTimeString()}</small><br>
+                ${alertData.message || `Attack detected from ${alertData.src}`}
+            </div>
+            <button class="alert-close" onclick="this.parentElement.parentElement.remove()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `;
+    
+    document.body.appendChild(popup);
+    
+    // Auto remove after 8 seconds
+    setTimeout(() => {
+        if (popup.parentElement) {
+            popup.classList.add('fade-out');
+            setTimeout(() => popup.remove(), 500);
+        }
+    }, 8000);
+}
+
+async function checkForNewAlerts() {
+    try {
+        const response = await fetch('/api/check_new_alerts');
+        const data = await response.json();
+        
+        if (data.new_alerts && data.alerts && data.alerts.length > 0) {
+            data.alerts.forEach(alert => {
+                // Only show popup for alerts we haven't seen before
+                if (!shownAlertIds.has(alert._id)) {
+                    showAlertPopup({
+                        id: alert._id, // Unique identifier for the alert
+                        src: alert.src_ip || alert.src,
+                        message: `${alert.alert_type} detected from ${alert.src_ip}`,
+                        type: getAlertType(alert.alert_type)
+                    });
+                }
+            });
+        }
+    } catch (error) {
+        console.error('Error checking alerts:', error);
+    }
+}
+
+function getAlertType(alertType) {
+    const criticalTypes = ['arp_spoofing', 'port_scanning', 'ddos'];
+    const warningTypes = ['suspicious_activity', 'multiple_connections'];
+    
+    if (criticalTypes.includes(alertType)) return 'critical';
+    if (warningTypes.includes(alertType)) return 'warning';
+    return 'info';
+}
+
+// Clear shown alerts when page loads (optional)
+// shownAlertIds.clear();
+
+// Check for new alerts every 10 seconds
+setInterval(checkForNewAlerts, 10000);
+
+// Also check when page becomes visible
+document.addEventListener('visibilitychange', function() {
+    if (!document.hidden) {
+        checkForNewAlerts();
+    }
+});
+
+// Initial check
+checkForNewAlerts();
+</script>
+</body>
+</html>
+
+

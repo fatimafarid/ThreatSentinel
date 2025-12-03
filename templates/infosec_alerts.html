@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alerts - ThreatSentinel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* === Same styling as IOC List === */
+    :root {
+      --primary-bg: #0a0a14;
+      --secondary-bg: #12121e;
+      --card-bg: #1a1a2e;
+      --accent-color: #ff6a00;
+      --accent-hover: #ff8533;
+      --text-primary: #ffffff;
+      --text-secondary: #b0b0b0;
+      --border-color: #2a2a3c;
+    }
+    body { background-color: var(--primary-bg); color: var(--text-primary); font-family: 'Montserrat', 'Segoe UI', sans-serif; margin:0; padding:0;}
+    .app-container { display: flex; min-height: 100vh;}
+    .sidebar { width: 280px; background-color: var(--secondary-bg); padding: 1.5rem 1rem; border-right: 1px solid var(--border-color);}
+    .sidebar-header { border-bottom: 1px solid var(--border-color); margin-bottom: 1rem;}
+    .sidebar-header h4 { color: var(--text-primary); font-weight: 700;}
+    .sidebar-header span { color: var(--accent-color);}
+    .nav-item { margin: 8px 0;}
+    .nav-link { color: var(--text-secondary); padding:0.75rem 1rem; display:flex; align-items:center; border-radius:6px; text-decoration:none;}
+    .nav-link:hover, .nav-link.active { background-color: var(--accent-color); color:#fff;}
+    .nav-link i { margin-right:10px;}
+    .main-content { flex:1; padding:1.5rem 2rem; overflow-y:auto;}
+    .page-header { margin-bottom:1.5rem; border-bottom:1px solid var(--border-color); padding-bottom:1rem;}
+    .page-title { color: var(--accent-color); font-weight:700;}
+    .page-subtitle { color: var(--text-secondary); font-size:0.9rem;}
+    .card-custom { background-color: var(--card-bg); border:1px solid var(--border-color); border-radius:10px; margin-bottom:1.5rem;}
+    .card-header-custom { background-color: rgba(255,106,0,0.1); padding:1rem 1.5rem; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between;}
+    .card-title { color: var(--accent-color); font-weight:600;}
+    .table-custom { width:100%; color: var(--text-primary); border-collapse:collapse;}
+    .table-custom th { background-color: rgba(255,106,0,0.15); color: var(--accent-color); padding:1rem; text-align:left;}
+    .table-custom td { padding:1rem; border-bottom:1px solid var(--border-color);}
+    .table-custom tbody tr:hover { background-color: rgba(255,106,0,0.1);}
+    .search-box { display:flex; margin-bottom:1rem;}
+    .search-input { flex:1; background-color: var(--secondary-bg); border:1px solid var(--border-color); color:#fff; padding:0.5rem 1rem;}
+    .search-btn { background-color: var(--accent-color); border:none; padding:0.5rem 1rem; color:#fff;}
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h4>Threat<span>Sentinel</span></h4>
+      </div>
+      
+        <div class="nav-items">
+        
+        <div class="nav-item"><a href="infosec_main.html" class="nav-link"><i class="fas fa-chart-dashboard"></i> Dashboard</a></div>
+        <div class="nav-item"><a href="/infosec_ioc_list.html" class="nav-link"><i class="fas fa-list"></i> IOC List</a></div>
+        <div class="nav-item"><a href="/infosec_alerts.html" class="nav-link active"><i class="fas fa-bell"></i> Alerts</a></div>
+        <div class="nav-item"><a href="/infosec_notification.html" class="nav-link"><i class="fas fa-bell"></i> Notifications</a></div>
+         <div class="nav-item">
+          <a href="infosec_report.html" class="nav-link">
+            <i class="fas fa-file-alt"></i> Report
+          </a>
+        </div>
+        <div class="nav-item"><a href="/infosec_settings.html" class="nav-link"><i class="fas fa-cog"></i> Settings</a></div>
+<div class="nav-item">
+  <a href="{{ url_for('home') }}" class="nav-link">
+    <i class="fas fa-sign-out-alt"></i> Log Out
+  </a>
+</div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="page-header">
+        <h1 class="page-title">Alerts</h1>
+        <p class="page-subtitle">All detected alerts from MongoDB</p>
+      </div>
+
+      <div class="search-box">
+        <input type="text" class="search-input" placeholder="Search alerts...">
+        <button class="search-btn"><i class="fas fa-search"></i></button>
+      </div>
+
+      <div class="card-custom">
+        <div class="card-header-custom">
+          <h5 class="card-title">Alert Records</h5>
+          <div class="table-info">Showing {{ alerts_data|length }} entries</div>
+        </div>
+        <div class="card-body">
+          <div class="table-container">
+            <table class="table-custom">
+             <thead>
+  <tr>
+    <th>ID</th>
+    <th>Alert Type</th>
+    <th>Source IP</th>
+    <th>Target IP</th>
+    <th>Source MAC</th>
+    <th>Claimed MAC</th>
+    <th>Previous MAC</th>
+    <th>Ports</th>
+    <th>Ports Scanned Count</th>
+    <th>Start Time</th>
+    <th>Duration (sec)</th>
+  </tr>
+</thead>
+<tbody>
+  {% for alert in alerts_data %}
+  <tr>
+    <td>{{ alert._id }}</td>
+    <td>{{ alert.alert_type }}</td>
+    <td>{{ alert.src_ip }}</td>
+    <td>{{ alert.target_ip }}</td>
+    <td>{{ alert.src_mac }}</td>
+    <td>{{ alert.claimed_mac }}</td>
+    <td>{{ alert.previous_mac }}</td>
+    <td>
+      {% if alert.ports %}
+        {{ alert.ports }}
+      {% else %}
+        -
+      {% endif %}
+    </td>
+    <td>{{ alert.ports_scanned_count }}</td>
+    <td>{{ alert.start_time }}</td>
+    <td>{{ alert.duration_sec }}</td>
+  </tr>
+  {% else %}
+  <tr>
+    <td colspan="11" class="text-center text-muted">⚠ No alert records found</td>
+  </tr>
+  {% endfor %}
+</tbody>
+
+
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ <script>
+  // Search alerts on button click
+  document.querySelector('.search-btn').addEventListener('click', function() {
+    const searchText = document.querySelector('.search-input').value.toLowerCase();
+    const rows = document.querySelectorAll('.table-custom tbody tr');
+    
+    rows.forEach(row => {
+      const text = row.textContent.toLowerCase();
+      if (text.includes(searchText)) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  });
+
+  // Allow pressing Enter to trigger search
+  document.querySelector('.search-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      document.querySelector('.search-btn').click();
+    }
+  });
+</script>
+
+<!-- Real-time alerts refresh code -->
+<script>
+async function refreshAlertsTable() {
+    try {
+        const response = await fetch('/api/alerts_data');
+        const alerts = await response.json();
+        
+        // Update table dynamically
+        const tbody = document.querySelector('.table-custom tbody');
+        tbody.innerHTML = alerts.map(alert => `
+            <tr>
+                <td>${alert._id}</td>
+                <td>${alert.alert_type}</td>
+                <td>${alert.src_ip}</td>
+                <td>${alert.target_ip}</td>
+                <td>${alert.src_mac}</td>
+                <td>${alert.claimed_mac}</td>
+                <td>${alert.previous_mac}</td>
+                <td>${alert.ports || '-'}</td>
+                <td>${alert.ports_scanned_count}</td>
+                <td>${alert.start_time}</td>
+                <td>${alert.duration_sec}</td>
+            </tr>
+        `).join('');
+        
+        // Update counter
+        document.querySelector('.table-info').textContent = `Showing ${alerts.length} entries`;
+        
+    } catch (error) {
+        console.error('Error refreshing alerts:', error);
+    }
+}
+
+// Auto-refresh every 15 seconds
+setInterval(refreshAlertsTable, 15000);
+</script>
+
+<!-- >>> added ALERT CODE <<< -->
+<script>
+async function loadAlerts() {
+    try {
+        let res = await fetch('/api/latest_alerts');
+        let data = await res.json();
+        let container = document.getElementById("alerts-container");
+        if(container){
+            container.innerHTML = "";
+            data.forEach(a => {
+                let div = document.createElement("div");
+                div.innerText = `[${new Date(a.time*1000).toLocaleString()}] ${a.src} -> ${a.reason}`;
+                container.appendChild(div);
+            });
+        }
+    } catch(e) {
+        console.log("Error loading alerts", e);
+    }
+}
+setInterval(loadAlerts, 5000);
+</script>
+</body>
+</html>

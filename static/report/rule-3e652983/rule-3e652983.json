@@ -1,0 +1,41 @@
+{
+    "rule_id": "rule-3e652983",
+    "created": "2025-10-03T08:27:57Z",
+    "source_alert_id": "68dad07c5c036a53e2b9a782",
+    "alert_type": "FIN_SCAN",
+    "src_ip": "10.129.5.193",
+    "dst_ip": null,
+    "protocol": "TCP",
+    "ports": [
+        "1025",
+        "110",
+        "111",
+        "113",
+        "135",
+        "139",
+        "143",
+        "1720",
+        "1723",
+        "199",
+        "21",
+        "22",
+        "23",
+        "25",
+        "256"
+    ],
+    "ports_scanned_count": 15,
+    "duration": 7.5,
+    "cvss_score": 3.6,
+    "priority": "Low",
+    "decision": {
+        "action": "notify",
+        "target": "10.129.5.193",
+        "reason": "FIN_SCAN detected (low priority - monitoring)",
+        "confidence": "low",
+        "expiry_seconds": 14400
+    },
+    "suggested_commands": [
+        "iptables -I INPUT -s 10.129.5.193 -j DROP # temp block",
+        "netsh advfirewall firewall add rule name=\"Block_10.129.5.193\" dir=in action=block remoteip=10.129.5.193"
+    ]
+}

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Integration Guide | ThreatSentinel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        function copyCode(button, codeId) {
+            const codeBlock = document.getElementById(codeId);
+            const textToCopy = codeBlock.innerText.trim();
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // Change button text and color temporarily
+                const originalText = button.innerHTML;
+                button.innerHTML = 'Copied!';
+                button.classList.add('bg-green-700', 'hover:bg-green-600');
+                button.classList.remove('bg-orange-600', 'hover:bg-orange-500');
+
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('bg-green-700', 'hover:bg-green-600');
+                    button.classList.add('bg-orange-600', 'hover:bg-orange-500');
+                }, 1500);
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+    <style>
+        :root {
+            --primary-bg: #0a0a14;
+            --secondary-bg: #12121e;
+            --card-bg: #1a1a2e;
+            --accent-color: #ff6a00;
+            --accent-hover: #ff8533;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --border-color: #2a2a3c;
+        }
+        
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            font-family: 'Montserrat', 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar Styles - Increased width */
+        .sidebar {
+            width: 280px;
+            background-color: var(--secondary-bg);
+            padding: 1.5rem 1rem;
+            border-right: 1px solid var(--border-color);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+        
+        .sidebar-header {
+            padding: 0 0.5rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1rem;
+        }
+        
+        .sidebar-header h4 {
+            color: var(--text-primary);
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .sidebar-header span {
+            color: var(--accent-color);
+        }
+        
+        .nav-item {
+            margin: 8px 0;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item:hover {
+            background-color: rgba(255, 106, 0, 0.1);
+        }
+        
+        .nav-link {
+            color: var(--text-secondary);
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-primary);
+            background-color: var(--accent-color);
+        }
+        
+        .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            padding: 1.5rem 2rem;
+            overflow-y: auto;
+        }
+        
+        .page-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .page-title {
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Setup Checklist Styles */
+        .setup-checklist-container {
+            position: sticky;
+            top: 1.5rem;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .setup-checklist {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 1.5rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .app-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                padding: 1rem;
+            }
+            
+            .nav-items {
+                display: flex;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+            
+            .nav-item {
+                margin: 0 5px;
+                white-space: nowrap;
+            }
+
+            .setup-checklist-container {
+                position: relative;
+                height: auto;
+                margin-bottom: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h4>Threat<span>Sentinel</span></h4>
+            </div>
+            <div class="nav-items">
+                <div class="nav-item">
+                    <a href="main.html" class="nav-link">
+                        <i class="fas fa-chart-dashboard"></i> Dashboard
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="/ioc_list.html" class="nav-link">
+                        <i class="fas fa-list"></i> IOC List
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="/alerts.html" class="nav-link">
+                        <i class="fas fa-bell"></i> Alerts
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="/report.html" class="nav-link">
+                        <i class="fas fa-file-alt"></i> Report
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <i class="fas fa-plug"></i> Integration
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="/settings.html" class="nav-link">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="{{ url_for('home') }}" class="nav-link">
+                        <i class="fas fa-sign-out-alt"></i> Log Out
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header class="text-center mb-12">
+                <h1 class="text-4xl font-extrabold text-white mb-2">Integration Guide — Connect Your Organization</h1>
+                <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+                    Welcome to the integration guide for our Automated Threat Intelligence System. Follow these steps to connect with our centralized service.
+                </p>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-10">
+                <!-- Setup Checklist - Full Height -->
+                <div class="lg:col-span-1 hidden lg:block">
+                    <div class="setup-checklist-container">
+                        <div class="setup-checklist">
+                            <h3 class="text-xl font-bold text-orange-500 mb-6">Setup Checklist</h3>
+                            <nav class="space-y-4 flex-1">
+                                <a href="#requirements" class="block text-gray-300 hover:text-orange-500 transition duration-150 ease-in-out py-2 border-b border-gray-700">
+                                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                    System Requirements
+                                </a>
+                                <a href="#step1" class="block text-gray-300 hover:text-orange-500 transition duration-150 ease-in-out py-2 border-b border-gray-700">
+                                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                    Step 1: Install Tools
+                                </a>
+                                <a href="#step2" class="block text-gray-300 hover:text-orange-500 transition duration-150 ease-in-out py-2 border-b border-gray-700">
+                                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                    Step 2: Get Scripts
+                                </a>
+                                <a href="#step3" class="block text-gray-300 hover:text-orange-500 transition duration-150 ease-in-out py-2 border-b border-gray-700">
+                                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                    Step 3: Configure Settings
+                                </a>
+                                <a href="#step4" class="block text-gray-300 hover:text-orange-500 transition duration-150 ease-in-out py-2 border-b border-gray-700">
+                                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                    Step 4: Run Local Server
+                                </a>
+                                <a href="#step5" class="block text-gray-300 hover:text-orange-500 transition duration-150 ease-in-out py-2 border-b border-gray-700">
+                                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                    Step 5: Pull Data
+                                </a>
+                                <a href="#step6" class="block text-gray-300 hover:text-orange-500 transition duration-150 ease-in-out py-2 border-b border-gray-700">
+                                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                    Step 6: Verify Integration
+                                </a>
+                            </nav>
+                            <div class="mt-auto pt-6 border-t border-gray-700">
+                                <div class="text-center">
+                                    <h4 class="text-lg font-semibold text-white mb-3">Progress</h4>
+                                    <div class="w-full bg-gray-700 rounded-full h-2.5 mb-3">
+                                        <div class="bg-orange-500 h-2.5 rounded-full" style="width: 0%"></div>
+                                    </div>
+                                    <p class="text-gray-400 text-sm">Complete all steps to finish setup</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Sections -->
+                <div class="lg:col-span-3 space-y-10">
+                    <section id="requirements" class="bg-gray-800 p-8 rounded-xl shadow-2xl border border-orange-600/50">
+                        <h2 class="text-2xl font-bold text-orange-500 mb-4">System Requirements</h2>
+                        <p class="text-gray-300 mb-5">Before starting, make sure your system meets the following:</p>
+                        <ul class="list-disc pl-6 text-gray-400 space-y-2">
+                            <li>Operating System: <strong class="text-white">Ubuntu (20.04 or higher)</strong></li>
+                            <li>Python: <strong class="text-white">Version 3.8 or above</strong></li>
+                            <li><strong class="text-white">Wireshark</strong>: Installed for packet capture and log analysis</li>
+                            <li><strong class="text-white">Flask Framework</strong>: Installed to run the local service endpoint</li>
+                            <li><strong class="text-white">Internet Access</strong>: To pull IOCs and download reports securely</li>
+                        </ul>
+                    </section>
+
+                    <section id="step1" class="bg-gray-800 p-8 rounded-xl shadow-2xl border border-gray-700">
+                        <div class="flex items-center mb-4">
+                            <span class="text-2xl font-bold bg-orange-600 text-white w-10 h-10 flex items-center justify-center rounded-full mr-4 shadow-lg">1</span>
+                            <h2 class="text-2xl font-bold text-white">Step 1: Install Required Tools</h2>
+                        </div>
+                        <p class="text-gray-300 mb-4">Run the following commands in your terminal:</p>
+                        <div class="relative">
+                            <pre id="code1" class="bg-gray-900 p-5 rounded-lg overflow-x-auto text-sm text-green-400"><code>
+                        # Update System
+                       sudo apt update && sudo apt upgrade -y
+
+                       # Install Wireshark
+                      sudo apt install wireshark -y
+
+                      # Install Python & pip
+                      sudo apt install python3 python3-pip -y
+
+                     # Install Flask and Dependencies
+                    pip3 install flask requests
+                            </code></pre>
+                            <button onclick="copyCode(this, 'code1')" class="absolute top-2 right-2 bg-orange-600 hover:bg-orange-500 text-white font-semibold py-1 px-3 rounded text-xs transition duration-150 ease-in-out">
+                                Copy All
+                            </button>
+                        </div>
+                    </section>
+
+                    <section id="step2" class="bg-gray-800 p-8 rounded-xl shadow-2xl border border-gray-700">
+                        <div class="flex items-center mb-4">
+                            <span class="text-2xl font-bold bg-orange-600 text-white w-10 h-10 flex items-center justify-center rounded-full mr-4 shadow-lg">2</span>
+                            <h2 class="text-2xl font-bold text-white">Step 2: Clone or Download Integration Scripts</h2>
+                        </div>
+                        <p class="text-gray-300 mb-4">Clone our integration tools from the repository:</p>
+                        <div class="relative">
+                            <pre id="code2" class="bg-gray-900 p-5 rounded-lg overflow-x-auto text-sm text-green-400"><code>
+                            git clone https://github.com/threatsentinel/script-integration.git
+
+                            cd threatsentinel-integration
+                            </code></pre>
+                            <button onclick="copyCode(this, 'code2')" class="absolute top-2 right-2 bg-orange-600 hover:bg-orange-500 text-white font-semibold py-1 px-3 rounded text-xs transition duration-150 ease-in-out">
+                                Copy All
+                            </button>
+                        </div>
+                        <p class="text-gray-400 mt-4 text-sm">Key Scripts: <strong class="text-white">pull_ioc.py</strong> (IOCs), <strong class="text-white">report.py</strong> (Reports), <strong class="text-white">config.json</strong> (Settings)</p>
+                    </section>
+
+                    <section id="step3" class="bg-gray-800 p-8 rounded-xl shadow-2xl border border-gray-700">
+                        <div class="flex items-center mb-4">
+                            <span class="text-2xl font-bold bg-orange-600 text-white w-10 h-10 flex items-center justify-center rounded-full mr-4 shadow-lg">3</span>
+                            <h2 class="text-2xl font-bold text-white">Step 3: Configure Connection Settings</h2>
+                        </div>
+                        <p class="text-gray-300 mb-4">Open <code class="bg-gray-700 px-1 rounded">config.json</code> and update it with your organization details:</p>
+                        <div class="relative">
+                            <pre id="code3" class="bg-gray-900 p-5 rounded-lg overflow-x-auto text-sm text-yellow-400"><code>
+{
+  "organization_id": "ORG-001",
+  "server_url": "http://central-flask-server:5000",
+  "api_key": "your-issued-api-key"
+}
+                            </code></pre>
+                            <button onclick="copyCode(this, 'code3')" class="absolute top-2 right-2 bg-orange-600 hover:bg-orange-500 text-white font-semibold py-1 px-3 rounded text-xs transition duration-150 ease-in-out">
+                                Copy All
+                            </button>
+                        </div>
+                        <p class="text-gray-400 mt-4 text-sm">⚠️ **Important**: Replace <strong class="text-white">"your-issued-api-key"</strong> with the key provided to your organization.</p>
+                    </section>
+
+                    <section id="step4" class="bg-gray-800 p-8 rounded-xl shadow-2xl border border-gray-700">
+                        <div class="flex items-center mb-4">
+                            <span class="text-2xl font-bold bg-orange-600 text-white w-10 h-10 flex items-center justify-center rounded-full mr-4 shadow-lg">4</span>
+                            <h2 class="text-2xl font-bold text-white">Step 4: Run Flask Server Locally</h2>
+                        </div>
+                        <p class="text-gray-300 mb-4">This service enables bi-directional communication with the central threat intelligence server.</p>
+                        <div class="relative">
+                            <pre id="code4" class="bg-gray-900 p-5 rounded-lg overflow-x-auto text-sm text-green-400"><code>
+python3 app.py
+                            </code></pre>
+                            <button onclick="copyCode(this, 'code4')" class="absolute top-2 right-2 bg-orange-600 hover:bg-orange-500 text-white font-semibold py-1 px-3 rounded text-xs transition duration-150 ease-in-out">
+                                Copy
+                            </button>
+                        </div>
+                        <p class="text-gray-400 mt-4 text-sm">Expected Output: <code class="text-white"> * Running on http://127.0.0.1:5000</code></p>
+                    </section>
+
+                    <section id="step5" class="bg-gray-800 p-8 rounded-xl shadow-2xl border border-gray-700">
+                        <div class="flex items-center mb-4">
+                            <span class="text-2xl font-bold bg-orange-600 text-white w-10 h-10 flex items-center justify-center rounded-full mr-4 shadow-lg">5</span>
+                            <h2 class="text-2xl font-bold text-white">Step 5: Pull IOCs and Reports</h2>
+                        </div>
+                        <p class="text-gray-300 mb-4">Execute the scripts to manually pull data and reports (these can be scheduled later):</p>
+                        <div class="relative">
+                            <pre id="code5" class="bg-gray-900 p-5 rounded-lg overflow-x-auto text-sm text-green-400"><code>
+                        # Pull Latest IOCs
+                        python3 pull_ioc.py
+
+                        # Download Reports (ZIP of Rules)
+                        python3 downloadreport.py
+                            </code></pre>
+                            <button onclick="copyCode(this, 'code5')" class="absolute top-2 right-2 bg-orange-600 hover:bg-orange-500 text-white font-semibold py-1 px-3 rounded text-xs transition duration-150 ease-in-out">
+                                Copy All
+                            </button>
+                        </div>
+                    </section>
+
+                    <section id="step6" class="bg-gray-800 p-8 rounded-xl shadow-2xl border border-gray-700">
+                        <div class="flex items-center mb-4">
+                            <span class="text-2xl font-bold bg-orange-600 text-white w-10 h-10 flex items-center justify-center rounded-full mr-4 shadow-lg">6</span>
+                            <h2 class="text-2xl font-bold text-white">Step 6: Verify Integration</h2>
+                        </div>
+                        <p class="text-gray-300">A successful setup means:</p>
+                        <ul class="list-disc pl-6 text-gray-400 space-y-2 mt-4">
+                            <li>You should receive **IOC updates** periodically.</li>
+                            <li>Downloaded `.zip` reports will be stored in the local **reports/** folder.</li>
+                            <li>**Logs** will confirm successful communication with the Flask server.</li>
+                        </ul>
+                    </section>
+
+                    <footer class="text-center mt-12 py-6 bg-gray-800/70 rounded-xl">
+                        <h3 class="text-xl font-semibold text-white mb-2">Need Support?</h3>
+                        <p class="text-gray-400">If you face any issues during setup, contact our support team:</p>
+                        <p class="mt-2">
+                            📧 <a href="mailto:support@threatsentinel.org" class="text-orange-500 hover:text-orange-400 font-semibold transition duration-150">support@threatsentinel.org</a>
+                            <span class="text-gray-500 ml-4">| Available 24/7</span>
+                        </p>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

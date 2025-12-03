@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>New Malware Variant - Threat Sentinel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+      body {
+            font-family: 'Merriweather', serif;
+            font-size: 16px;
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle, #2a0e00 0%, #000 70%);
+            color: white;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 0;
+        }
+
+        .navbar-custom {
+            background: #1a1a1a;
+            padding: 15px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 2.5rem;
+            color: #fff !important;
+        }
+
+        .nav-link {
+            color: #ddd !important;
+            font-weight: 700;
+            margin-right: 20px;
+            font-size: 2.5rem;
+        }
+
+        .nav-link:hover {
+            color: #fff !important;
+        }
+    .blog-post-container {
+    background: #121212;
+    border-left: 4px solid #ffa726;
+    padding: 30px;
+    margin-top: 40px;
+    border-radius: 8px;
+    position: relative; /* Add this */
+    z-index: 1; /* Add this */
+}
+    .blog-post-container img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    .blog-post-container p {
+           font-size: 50px; /* ya jitna tum chaho */
+          line-height: 1.6; /* readability ke liye */
+        }
+    .back-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 24px; /* height aur width dono baray */
+    font-size: 18px;    /* text size bara */
+    font-weight: 600;   /* text thoda bold */
+}
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">Threat Sentinel</a>
+      <div class="collapse navbar-collapse justify-content-end">
+        <ul class="navbar-nav me-3">
+          <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="features.html">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="news.html">News</a></li>
+          <li class="nav-item"><a class="nav-link" href="events.html">Events</a></li>
+          <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+        </ul>
+        <a class="btn btn-outline-warning rounded-pill" href="login.html">Login / Signup</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Blog Post Content -->
+  <div class="container">
+    <div class="blog-post-container">
+      <h2 class="text-warning mb-4">New Malware Variant Exploits IoT Devices</h2>
+      <img src="{{ url_for('static', filename='malware.jpg') }}" alt="Malware IoT Attack" />
+
+
+      <p>
+        Cybersecurity researchers have recently uncovered a sophisticated new strain of malware that specifically targets vulnerable Internet of Things (IoT) devices. These include smart home systems, industrial equipment, and even connected healthcare gadgets. The malware takes advantage of outdated firmware and weak or default credentials to silently take control of these devices.
+      </p>
+
+      <p>
+        Once infected, the devices are absorbed into a larger botnet, which is then used to launch massive Distributed Denial of Service (DDoS) attacks. These attacks can cripple major online platforms by overwhelming them with fake traffic, causing outages and service disruptions. Security experts note that this malware uses advanced evasion techniques to avoid detection and spreads rapidly by scanning the internet for exposed devices.
+      </p>
+
+      <p>
+        Experts urge users and businesses to take immediate action by updating device firmware, changing default passwords, and segmenting IoT networks. As IoT adoption grows, so does the attack surface for threat actors. Proactive measures and continuous monitoring are now more critical than ever to defend against this evolving threat landscape.
+      </p>
+
+      <!-- Back Button -->
+      <a href="news.html" class="btn btn-warning back-btn">← Back to News</a>
+    </div>
+  </div>
+
+</body>
+</html>

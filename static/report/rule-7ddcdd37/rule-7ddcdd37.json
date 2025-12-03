@@ -1,0 +1,28 @@
+{
+    "rule_id": "rule-7ddcdd37",
+    "created": "2025-10-03T08:27:57Z",
+    "source_alert_id": "68da62fb5033ff6faad0f0db",
+    "alert_type": "SERVICE_PROBE",
+    "src_ip": "172.20.10.4",
+    "dst_ip": null,
+    "protocol": "TCP",
+    "ports": [
+        "443",
+        "80"
+    ],
+    "ports_scanned_count": 2,
+    "duration": 7.6,
+    "cvss_score": 9.8,
+    "priority": "Critical",
+    "decision": {
+        "action": "notify",
+        "target": "172.20.10.4",
+        "reason": "Service Probe / Reconnaissance",
+        "confidence": "medium",
+        "expiry_seconds": 14400
+    },
+    "suggested_commands": [
+        "iptables -I INPUT -s 172.20.10.4 -j DROP # temp block",
+        "netsh advfirewall firewall add rule name=\"Block_172.20.10.4\" dir=in action=block remoteip=172.20.10.4"
+    ]
+}

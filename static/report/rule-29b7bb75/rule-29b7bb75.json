@@ -1,0 +1,27 @@
+{
+    "rule_id": "rule-29b7bb75",
+    "created": "2025-10-03T08:27:57Z",
+    "source_alert_id": "68da5d2de8b5c521d22e85db",
+    "alert_type": "SERVICE_PROBE",
+    "src_ip": "10.129.5.252",
+    "dst_ip": null,
+    "protocol": "TCP",
+    "ports": [
+        "443"
+    ],
+    "ports_scanned_count": 1,
+    "duration": 0.6,
+    "cvss_score": 6.4,
+    "priority": "Medium",
+    "decision": {
+        "action": "notify",
+        "target": "10.129.5.252",
+        "reason": "Service Probe / Reconnaissance",
+        "confidence": "medium",
+        "expiry_seconds": 14400
+    },
+    "suggested_commands": [
+        "iptables -I INPUT -s 10.129.5.252 -j DROP # temp block",
+        "netsh advfirewall firewall add rule name=\"Block_10.129.5.252\" dir=in action=block remoteip=10.129.5.252"
+    ]
+}

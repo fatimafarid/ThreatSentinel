@@ -1,0 +1,229 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Threat Sentinel - Events</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body {
+      font-family: 'Merriweather', serif;
+      font-size: 18px; /* Increased from 13px */
+      background: radial-gradient(circle, #2a0e00 0%, #000 70%);
+      color: white;
+      padding-bottom: 40px;
+    }
+
+    .navbar-custom {
+      background: #1a1a1a;
+      padding: 15px 20px;
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 2.5rem;
+      color: #fff !important;
+    }
+
+    .nav-link {
+      color: #ddd !important;
+      font-weight: 700;
+      margin-right: 20px;
+      font-size: 2.5rem;
+    }
+
+    .nav-link:hover {
+      color: #fff !important;
+    }
+
+    .btn-login {
+      background-color: transparent;
+      color: #ffa726;
+      border: 1px solid #ffa726;
+      border-radius: 20px;
+      padding: 8px 20px;
+      font-weight: 700;
+      font-size: 2.5rem;
+    }
+
+    .btn-login:hover {
+      background-color: #ffa726;
+      color: #000;
+    }
+
+    h2 {
+      color: #ffa726;
+      font-size: 2.2rem; /* Increased */
+    }
+
+    h4 {
+      color: #ffa726;
+      font-size: 1.8rem; /* Increased */
+    }
+
+    .section-title {
+      border-bottom: 2px solid #ffa726;
+      padding-bottom: 10px;
+      margin: 30px 0 20px;
+    }
+
+    .event-box {
+      background-color: rgba(255,255,255,0.05);
+      border-left: 4px solid #ffa726;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+
+    /* Animation styles */
+    .event-box img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-top: 15px;
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+      transition: all 0.8s ease-out;
+    }
+
+    .event-box img.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .event-box img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(255, 167, 38, 0.7);
+    }
+
+    .cta-box {
+      background-color: rgba(255,255,255,0.05);
+      padding: 20px;
+      border: 1px dashed #ffa726;
+      border-radius: 10px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">Threat Sentinel</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav me-3">
+          <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">News</a></li>
+          <li class="nav-item"><a class="nav-link" href="events.html">Events</a></li>
+          <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+        </ul>
+        <a class="btn btn-login" href="login.html">Login / Signup</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Events Content -->
+  <div class="container mt-4">
+    <h2 class="section-title">🔔 Threat Sentinel Events & Engagements</h2>
+
+    <!-- Event 1 -->
+    <div class="event-box">
+      <div class="row align-items-start">
+        <div class="col-md-8">
+          <h4>📡 Threat Intelligence Webinar</h4>
+          <p><strong>Topic:</strong> Understanding CVSS & Real-time IOC Sharing</p>
+          <p><strong>When:</strong> 18th May 2025 – 3:00 PM to 5:00 PM PKT</p>
+          <p><strong>Where:</strong> Remote (Zoom)</p>
+          <p><strong>Who Should Join:</strong> Cybersecurity enthusiasts, threat analysts, red/blue teamers</p>
+          <p><strong>Access:</strong> Free – Registration required</p>
+          <p><strong>Summary:</strong></p>
+          <ul>
+            <li>Hands-on demo of our IOC sharing module</li>
+            <li>CVSS scoring walkthrough</li>
+            <li>Analyst tips for identifying relevant threat indicators</li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <img src="{{ url_for('static', filename='c1.PNG') }}" alt="Webinar Event" class="img-fluid rounded" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Event 2 -->
+    <div class="event-box">
+      <div class="row align-items-start">
+        <div class="col-md-8">
+          <h4>🧠 Public Training – Threat Analysis for Beginners</h4>
+          <p><strong>When:</strong> 22nd May 2025 – 2:00 PM to 4:30 PM PKT</p>
+          <p><strong>Where:</strong> Remote (Zoom + Live Training Instance)</p>
+          <p><strong>Price:</strong> Free (recording available after session)</p>
+          <p><strong>Agenda:</strong></p>
+          <ul>
+            <li>Basic threat intelligence lifecycle</li>
+            <li>How to extract and encode indicators</li>
+            <li>Working with security rules and reports</li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <img src="{{ url_for('static', filename='training.jpg') }}" alt="Training Session" class="img-fluid rounded" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Event 3 -->
+    <div class="event-box">
+      <div class="row align-items-start">
+        <div class="col-md-8">
+          <h4>💻 Threat Sentinel Hackathon 2025</h4>
+          <p><strong>Date:</strong> 30–31 May 2025</p>
+          <p><strong>Location:</strong> Islamabad, Pakistan (on-site)</p>
+          <p><strong>Overview:</strong></p>
+          <ul>
+            <li>Build real-time alerting modules</li>
+            <li>Integrate open-source IDS tools</li>
+            <li>Compete in blue team defense challenges</li>
+          </ul>
+          <p><strong>Prize:</strong> Winning teams get featured in Sentinel Labs + Swag</p>
+        </div>
+        <div class="col-md-4">
+          <img src="{{ url_for('static', filename='owl.png') }}" 
+     class="img-fluid mb-4 rounded shadow">
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Box -->
+    <div class="cta-box">
+      <h4>🗓️ Want to Collaborate or Host a Session?</h4>
+      <p>We're always open to working with universities, security teams, and researchers. Reach out to us to co-host a training or participate in our next collaborative project.</p>
+    </div>
+  </div>
+
+  <!-- Image Animation Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const images = document.querySelectorAll(".event-box img");
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+
+      images.forEach(img => observer.observe(img));
+    });
+  </script>
+
+</body>
+</html>
