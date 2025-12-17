@@ -23,9 +23,12 @@ app = Flask(__name__)
 # 🔒 9. Disable dangerous HTTP methods
 @app.before_request
 def block_methods():
-    allowed = ['GET', 'POST']
+    allowed = ['GET', 'POST', 'HEAD']
     if request.method not in allowed:
         return "Method Not Allowed", 405
+@app.route("/api/health", methods=["GET", "HEAD"])
+def health():
+    return "OK", 200
 
 # Initialize Limiter
 limiter = Limiter(
