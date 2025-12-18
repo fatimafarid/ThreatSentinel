@@ -41,15 +41,15 @@
 
     .navbar-brand {
         font-weight: 700;
-        font-size: clamp(1.5rem, 4vw, 2.5rem); /* Responsive font size */
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
         color: #fff !important;
     }
 
     .nav-link {
         color: #ddd !important;
         font-weight: 700;
-        margin-right: clamp(10px, 2vw, 20px); /* Responsive margin */
-        font-size: clamp(1rem, 2vw, 1.5rem); /* Responsive font size */
+        margin-right: clamp(10px, 2vw, 20px);
+        font-size: clamp(1rem, 2vw, 1.5rem);
     }
 
     .nav-link:hover {
@@ -61,9 +61,9 @@
         color: #ffa726;
         border: 1px solid #ffa726;
         border-radius: 20px;
-        padding: clamp(6px, 1vw, 8px) clamp(15px, 3vw, 20px); /* Responsive padding */
+        padding: clamp(6px, 1vw, 8px) clamp(15px, 3vw, 20px);
         font-weight: 700;
-        font-size: clamp(1rem, 2vw, 1.5rem); /* Responsive font size */
+        font-size: clamp(1rem, 2vw, 1.5rem);
         white-space: nowrap;
     }
 
@@ -78,7 +78,7 @@
         z-index: 1;
         background: url("https://socbyte.ai/static/13-1-hero-bg-2.png") no-repeat center center;
         background-size: cover;
-        background-attachment: scroll; /* Changed from fixed for better mobile performance */
+        background-attachment: scroll;
         min-height: 100vh;
         display: flex;
         flex-direction: column;
@@ -103,22 +103,22 @@
     }
 
     .hero-text h1 {
-        font-size: clamp(2rem, 5vw, 4.5rem); /* Responsive font size */
+        font-size: clamp(2rem, 5vw, 4.5rem);
         font-weight: 700;
         line-height: 1.2;
         margin-bottom: 20px;
-        margin-left: 0; /* Removed negative margin */
+        margin-left: 0;
     }
 
     .hero-text p {
-        font-size: clamp(1rem, 2vw, 1.5rem); /* Responsive font size */
+        font-size: clamp(1rem, 2vw, 1.5rem);
         max-width: 600px;
-        margin-left: 0; /* Removed negative margin */
+        margin-left: 0;
     }
 
     .owl-landing-zone {
-        width: clamp(300px, 40vw, 500px); /* Responsive width */
-        height: clamp(300px, 40vw, 500px); /* Responsive height */
+        width: clamp(300px, 40vw, 500px);
+        height: clamp(300px, 40vw, 500px);
         position: relative;
     }
 
@@ -126,7 +126,7 @@
         position: absolute;
         top: -200px;
         right: -200px;
-        width: 100%; /* Changed to percentage */
+        width: 100%;
         height: auto;
         transform-origin: center;
         animation: flyInAndLand 5s forwards;
@@ -153,7 +153,7 @@
     }
 
     .mission-section {
-        padding: clamp(50px, 8vw, 100px) 20px; /* Responsive padding */
+        padding: clamp(50px, 8vw, 100px) 20px;
         background-color: rgba(0, 0, 0, 0.7);
         min-height: 100vh;
         display: flex;
@@ -165,14 +165,14 @@
     .mission-box {
         background-color: transparent;
         border-radius: 12px;
-        padding: clamp(20px, 4vw, 40px); /* Responsive padding */
+        padding: clamp(20px, 4vw, 40px);
         max-width: 1000px;
         width: 100%;
         text-align: center;
     }
 
     .mission-title {
-        font-size: clamp(2rem, 4vw, 3.5rem); /* Responsive font size */
+        font-size: clamp(2rem, 4vw, 3.5rem);
         color: #ffa726;
         text-transform: uppercase;
         margin-bottom: 20px;
@@ -180,7 +180,7 @@
     }
 
     .mission-box > p {
-        font-size: clamp(1rem, 2vw, 1.5rem); /* Responsive font size */
+        font-size: clamp(1rem, 2vw, 1.5rem);
         line-height: 1.6;
         margin-bottom: 40px;
     }
@@ -188,8 +188,8 @@
     .card-section {
         display: flex;
         justify-content: center;
-        gap: clamp(15px, 2vw, 20px); /* Responsive gap */
-        flex-wrap: wrap; /* Allow wrapping on mobile */
+        gap: clamp(15px, 2vw, 20px);
+        flex-wrap: wrap;
     }
 
     .card-section .card {
@@ -198,9 +198,9 @@
         border-radius: 10px;
         color: white;
         text-align: center;
-        min-width: 0; /* Remove fixed min-width */
-        width: clamp(250px, 30vw, 500px); /* Responsive width */
-        flex: 1 1 clamp(250px, 30vw, 500px); /* Responsive flex basis */
+        min-width: 0;
+        width: clamp(250px, 30vw, 500px);
+        flex: 1 1 clamp(250px, 30vw, 500px);
         max-width: 500px;
     }
 
@@ -211,20 +211,19 @@
     }
 
     .card-section .card h6 {
-        font-size: clamp(1.2rem, 2vw, 1.5rem); /* Responsive font size */
+        font-size: clamp(1.2rem, 2vw, 1.5rem);
         font-weight: bold;
         margin-bottom: 1rem;
     }
 
     .card-section .card p {
-        font-size: clamp(1rem, 1.5vw, 1.2rem); /* Responsive font size */
+        font-size: clamp(1rem, 1.5vw, 1.2rem);
         line-height: 1.4;
     }
 
-    /* Media queries for mobile-specific adjustments */
     @media (max-width: 991.98px) {
         .hero-content {
-            flex-direction: column; /* Stack elements on tablet/mobile */
+            flex-direction: column;
             text-align: center;
         }
         
@@ -342,11 +341,11 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav me-3">
                    <li class="nav-item"><a class="nav-link" href="Home.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="features.html" target="_blank">Features</a></li>
-                    <li class="nav-item"><a class="nav-link" href="about.html" target="_blank">About Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="news.html" target="_blank">News</a></li>
-                    <li class="nav-item"><a class="nav-link" href="Events.html" target="_blank">Events</a></li>
-                    <li class="nav-item"><a class="nav-link" href="blog.html" target="_blank">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="features.html">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="news.html">News</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Events.html">Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
                 </ul>
                 <a class="btn btn-login" href="login.html">Login / Signup</a>
             </div>
