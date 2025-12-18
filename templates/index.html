@@ -41,15 +41,15 @@
 
     .navbar-brand {
         font-weight: 700;
-        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        font-size: 2.5rem;
         color: #fff !important;
     }
 
     .nav-link {
         color: #ddd !important;
         font-weight: 700;
-        margin-right: clamp(10px, 2vw, 20px);
-        font-size: clamp(1rem, 2vw, 1.5rem);
+        margin-right: 20px;
+        font-size: 1.5rem;
     }
 
     .nav-link:hover {
@@ -61,9 +61,9 @@
         color: #ffa726;
         border: 1px solid #ffa726;
         border-radius: 20px;
-        padding: clamp(6px, 1vw, 8px) clamp(15px, 3vw, 20px);
+        padding: 8px 20px;
         font-weight: 700;
-        font-size: clamp(1rem, 2vw, 1.5rem);
+        font-size: 1.5rem;
         white-space: nowrap;
     }
 
@@ -221,7 +221,17 @@
         line-height: 1.4;
     }
 
-    @media (max-width: 991.98px) {
+    @media (max-width: 1200px) {
+      .nav-link, .btn-login {
+        font-size: 1.4rem;
+      }
+      
+      .navbar-brand {
+        font-size: 2.2rem;
+      }
+    }
+
+    @media (max-width: 992px) {
         .hero-content {
             flex-direction: column;
             text-align: center;
@@ -265,6 +275,15 @@
                 transform: scale(1) rotate(0deg);
             }
         }
+        
+        .navbar-brand {
+            font-size: 2rem;
+        }
+        
+        .nav-link, .btn-login {
+            font-size: 1.3rem;
+            margin-right: 10px;
+        }
     }
     
     @media (max-width: 767.98px) {
@@ -275,6 +294,7 @@
         .nav-link {
             margin-right: 0;
             margin-bottom: 10px;
+            font-size: 1.2rem;
         }
         
         .hero-section {
@@ -306,11 +326,20 @@
         .mission-box > p {
             font-size: 1rem;
         }
+        
+        .navbar-brand {
+            font-size: 1.8rem;
+        }
+        
+        .btn-login {
+            font-size: 1.2rem;
+            padding: 5px 10px;
+        }
     }
     
     @media (max-width: 480px) {
         .navbar-brand {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
         }
         
         .hero-text h1 {
@@ -324,6 +353,14 @@
         .owl-landing-zone {
             width: 200px;
             height: 200px;
+        }
+        
+        .nav-link {
+            font-size: 1.1rem;
+        }
+        
+        .btn-login {
+            font-size: 1.1rem;
         }
     }
 </style>
