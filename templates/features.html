@@ -53,30 +53,34 @@
       color: #000;
     }
 
-    /* Increased font sizes for heading, subheading, and features */
     h2.section-heading {
-  font-size: 3.5rem;
-  font-weight: bold;
-  padding: 10px 0; /* top-bottom padding */
-  white-space: nowrap; /* ek line me rakhe */
-}
+      font-size: 3.5rem;
+      font-weight: bold;
+      padding: 10px 0;
+      white-space: nowrap;
+    }
 
-p.section-subtext {
-  font-size: 1.7rem;
-  max-width: 1000px; /* width limit for wrapping */
-  line-height: 1.3; /* line spacing */
-  word-break: break-word;
-  text-align: center; /* horizontally center text */
-  margin: 0 auto; /* center the block itself */
-}
+    p.section-subtext {
+      font-size: 1.7rem;
+      max-width: 1000px;
+      line-height: 1.3;
+      word-break: break-word;
+      text-align: center;
+      margin: 0 auto;
+    }
 
-h6.text-warning {
-  font-size: 1.8rem;
-  font-weight: bold;
-}
+    h6.text-warning {
+      font-size: 1.8rem;
+      font-weight: bold;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
     ul.text-start {
-      font-size: 1.08rem; 
+      font-size: 1.08rem;
+      min-height: 180px;
     }
 
     .card-feature {
@@ -87,6 +91,7 @@ h6.text-warning {
       padding: 20px 10px;
       text-align: center;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 100%;
     }
 
     .card-feature:hover {
@@ -94,10 +99,161 @@ h6.text-warning {
       box-shadow: 0 0 20px rgba(255, 165, 0, 0.5);
     }
 
-    .feature-icon {
-      font-size: 2.8rem;
+    .feature-icon-circle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: #000;
       color: #ffa726;
-      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+    }
+
+    .feature-icon {
+      font-size: 1.5rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1200px) {
+      .nav-link, .btn-login {
+        font-size: 2rem;
+      }
+      
+      h2.section-heading {
+        font-size: 3rem;
+      }
+      
+      p.section-subtext {
+        font-size: 1.5rem;
+      }
+      
+      h6.text-warning {
+        font-size: 1.6rem;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .navbar-brand {
+        font-size: 2rem;
+      }
+      
+      .nav-link, .btn-login {
+        font-size: 1.6rem;
+        margin-right: 10px;
+      }
+      
+      h2.section-heading {
+        font-size: 2.5rem;
+        white-space: normal;
+      }
+      
+      p.section-subtext {
+        font-size: 1.3rem;
+        padding: 0 15px;
+      }
+      
+      h6.text-warning {
+        font-size: 1.4rem;
+        min-height: 50px;
+      }
+      
+      ul.text-start {
+        min-height: 150px;
+        font-size: 1rem;
+      }
+      
+      .card-feature {
+        margin-bottom: 20px;
+      }
+      
+      /* On tablet, show 2 columns */
+      .col-md-2 {
+        width: 50%;
+        float: left;
+      }
+      
+      .offset-md-1 {
+        margin-left: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-link, .btn-login {
+        font-size: 1.4rem;
+      }
+      
+      h2.section-heading {
+        font-size: 2rem;
+      }
+      
+      p.section-subtext {
+        font-size: 1.1rem;
+      }
+      
+      h6.text-warning {
+        font-size: 1.2rem;
+        min-height: 40px;
+      }
+      
+      ul.text-start {
+        min-height: auto;
+        margin-bottom: 30px;
+        font-size: 0.95rem;
+      }
+      
+      .feature-icon-circle {
+        width: 50px;
+        height: 50px;
+      }
+      
+      .feature-icon {
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      /* On mobile, show 1 column */
+      .col-md-2 {
+        width: 100%;
+        float: none;
+      }
+      
+      .navbar-brand {
+        font-size: 1.8rem;
+      }
+      
+      .nav-link, .btn-login {
+        font-size: 1.2rem;
+        margin-right: 5px;
+        padding: 5px 10px;
+      }
+      
+      h2.section-heading {
+        font-size: 1.8rem;
+      }
+      
+      p.section-subtext {
+        font-size: 1rem;
+      }
+      
+      h6.text-warning {
+        font-size: 1.1rem;
+        min-height: 35px;
+      }
+      
+      ul.text-start {
+        font-size: 0.9rem;
+        padding-left: 15px;
+      }
+    }
+
+    /* Clear float for responsive columns */
+    .row::after {
+      content: "";
+      clear: both;
+      display: table;
     }
   </style>
 </head>
@@ -135,73 +291,78 @@ h6.text-warning {
 
     <div class="row text-light">
       <div class="col-md-2 offset-md-1 mb-4 text-center">
-        <div class="mb-3">
-          <div class="rounded-circle bg-dark text-warning d-flex align-items-center justify-content-center mx-auto" style="width:60px; height:60px;">
-            <i class="bi bi-pc-display" style="font-size: 1.5rem;"></i>
+        <div class="card-feature">
+          <div class="mb-3">
+            <div class="feature-icon-circle">
+              <i class="bi bi-pc-display feature-icon"></i>
+            </div>
           </div>
+          <h6 class="text-warning">Threat Intelligence Collection</h6>
+          <ul class="text-start">
+            <li>Automated ingestion of Indicators of Compromise (IOCs) using AIS (STIX/TAXII)</li>
+            <li>Aggregation of threat data from multiple organizations and sources</li>
+          </ul>
         </div>
-        <h6 class="text-warning">Asset Management</h6>
-        <ul class="text-start">
-          <li>Cybersecurity attack surface Management (CSAM)</li>
-          <li>External attack surface Management (EASM)</li>
-        </ul>
       </div>
 
       <div class="col-md-2 mb-4 text-center">
-        <div class="mb-3">
-          <div class="rounded-circle bg-dark text-warning d-flex align-items-center justify-content-center mx-auto" style="width:60px; height:60px;">
-            <i class="bi bi-gear-fill" style="font-size: 1.5rem;"></i>
+        <div class="card-feature">
+          <div class="mb-3">
+            <div class="feature-icon-circle">
+              <i class="bi bi-gear-fill feature-icon"></i>
+            </div>
           </div>
+          <h6 class="text-warning">Threat Analysis & Correlation</h6>
+          <ul class="text-start">
+            <li>Analysis of network and endpoint logs to identify attack patterns</li>
+            <li>Correlation of local alerts with shared AIS threat intelligence</li>
+          </ul>
         </div>
-        <h6 class="text-warning">Configuration Management</h6>
-        <ul class="text-start">
-          <li>Enterprise TruRisk management (ETM)</li>
-          <li>TotalAi</li>
-          <li>Vulnerability management and response (VMDR)</li>
-          <li>Web app scanning (WAS)</li>
-          <li>API Security</li>
-        </ul>
       </div>
 
       <div class="col-md-2 mb-4 text-center">
-        <div class="mb-3">
-          <div class="rounded-circle bg-dark text-warning d-flex align-items-center justify-content-center mx-auto" style="width:60px; height:60px;">
-            <i class="bi bi-tools" style="font-size: 1.5rem;"></i>
+        <div class="card-feature">
+          <div class="mb-3">
+            <div class="feature-icon-circle">
+              <i class="bi bi-tools feature-icon"></i>
+            </div>
           </div>
+          <h6 class="text-warning">Severity Assessment</h6>
+          <ul class="text-start">
+            <li>TRisk evaluation using CVSS scoring and contextual indicators</li>
+            <li>Prioritization of threats based on severity and potential damage</li>
+          </ul>
         </div>
-        <h6 class="text-warning">Risk Remediation</h6>
-        <ul class="text-start">
-          <li>TruRisk eliminate (TE)</li>
-          <li>Patch Management (PM)</li>
-          <li>Custom Assessment and remediation (CAR)</li>
-        </ul>
       </div>
 
       <div class="col-md-2 mb-4 text-center">
-        <div class="mb-3">
-          <div class="rounded-circle bg-dark text-warning d-flex align-items-center justify-content-center mx-auto" style="width:60px; height:60px;">
-            <i class="bi bi-shield-lock-fill" style="font-size: 1.5rem;"></i>
+        <div class="card-feature">
+          <div class="mb-3">
+            <div class="feature-icon-circle">
+              <i class="bi bi-shield-lock-fill feature-icon"></i>
+            </div>
           </div>
+          <h6 class="text-warning">Automated Rule & Report Generation</h6>
+          <ul class="text-start">
+            <li>Generation of defensive rules based on analyzed threats and IOCs</li>
+            <li>Detailed threat reports including attack type, severity, IP details, and metadata</li>
+          </ul>
         </div>
-        <h6 class="text-warning">Threat Detection & Response</h6>
-        <ul class="text-start">
-          <li>Multi-Vector EDR</li>
-          <li>Context XDR</li>
-        </ul>
       </div>
 
       <div class="col-md-2 mb-4 text-center">
-        <div class="mb-3">
-          <div class="rounded-circle bg-dark text-warning d-flex align-items-center justify-content-center mx-auto" style="width:60px; height:60px;">
-            <i class="bi bi-clipboard-check-fill" style="font-size: 1.5rem;"></i>
+        <div class="card-feature">
+          <div class="mb-3">
+            <div class="feature-icon-circle">
+              <i class="bi bi-clipboard-check-fill feature-icon"></i>
+            </div>
           </div>
+          <h6 class="text-warning">Proactive Defense Support</h6>
+          <ul class="text-start">
+            <li>Early warning alerts for emerging threats shared via AIS</li>
+            <li>Assistance in proactive firewall and security policy updates</li>
+          </ul>
         </div>
-        <h6 class="text-warning">Compliance</h6>
-        <ul class="text-start">
-          <li>Policy compliance (PC)</li>
-          <li>File integrity monitoring (FLM)</li>
-          <li>Vulnerability management and response (VMDR)</li>
-        </ul>
       </div>
     </div>
   </div>
