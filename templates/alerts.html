@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* === Same styling as IOC List === */
     :root {
       --primary-bg: #0a0a14;
       --secondary-bg: #12121e;
@@ -19,53 +18,390 @@
       --text-secondary: #b0b0b0;
       --border-color: #2a2a3c;
     }
-    body { background-color: var(--primary-bg); color: var(--text-primary); font-family: 'Montserrat', 'Segoe UI', sans-serif; margin:0; padding:0;}
-    .app-container { display: flex; min-height: 100vh;}
-    .sidebar { width: 280px; background-color: var(--secondary-bg); padding: 1.5rem 1rem; border-right: 1px solid var(--border-color);}
-    .sidebar-header { border-bottom: 1px solid var(--border-color); margin-bottom: 1rem;}
-    .sidebar-header h4 { color: var(--text-primary); font-weight: 700;}
-    .sidebar-header span { color: var(--accent-color);}
-    .nav-item { margin: 8px 0;}
-    .nav-link { color: var(--text-secondary); padding:0.75rem 1rem; display:flex; align-items:center; border-radius:6px; text-decoration:none;}
-    .nav-link:hover, .nav-link.active { background-color: var(--accent-color); color:#fff;}
-    .nav-link i { margin-right:10px;}
-    .main-content { flex:1; padding:1.5rem 2rem; overflow-y:auto;}
-    .page-header { margin-bottom:1.5rem; border-bottom:1px solid var(--border-color); padding-bottom:1rem;}
-    .page-title { color: var(--accent-color); font-weight:700;}
-    .page-subtitle { color: var(--text-secondary); font-size:0.9rem;}
-    .card-custom { background-color: var(--card-bg); border:1px solid var(--border-color); border-radius:10px; margin-bottom:1.5rem;}
-    .card-header-custom { background-color: rgba(255,106,0,0.1); padding:1rem 1.5rem; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between;}
-    .card-title { color: var(--accent-color); font-weight:600;}
-    .table-custom { width:100%; color: var(--text-primary); border-collapse:collapse;}
-    .table-custom th { background-color: rgba(255,106,0,0.15); color: var(--accent-color); padding:1rem; text-align:left;}
-    .table-custom td { padding:1rem; border-bottom:1px solid var(--border-color);}
-    .table-custom tbody tr:hover { background-color: rgba(255,106,0,0.1);}
-    .search-box { display:flex; margin-bottom:1rem;}
-    .search-input { flex:1; background-color: var(--secondary-bg); border:1px solid var(--border-color); color:#fff; padding:0.5rem 1rem;}
-    .search-btn { background-color: var(--accent-color); border:none; padding:0.5rem 1rem; color:#fff;}
+    
+    body {
+      background-color: var(--primary-bg);
+      color: var(--text-primary);
+      font-family: 'Montserrat', 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    /* Sidebar Styles - Same as IOC list */
+    .sidebar {
+      width: 280px;
+      background-color: var(--secondary-bg);
+      padding: 1.5rem 1rem;
+      border-right: 1px solid var(--border-color);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      z-index: 100;
+    }
+    
+    .sidebar-header {
+      padding: 0 0.5rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 1rem;
+    }
+    
+    .sidebar-header h4 {
+      color: var(--text-primary);
+      font-weight: 700;
+      margin: 0;
+    }
+    
+    .sidebar-header span {
+      color: var(--accent-color);
+    }
+    
+    .nav-item {
+      margin: 8px 0;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-item:hover {
+      background-color: rgba(255, 106, 0, 0.1);
+    }
+    
+    .nav-link {
+      color: var(--text-secondary);
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      color: var(--text-primary);
+      background-color: var(--accent-color);
+    }
+    
+    .nav-link i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+    }
+    
+    /* Main Content Styles */
+    .main-content {
+      flex: 1;
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+    }
+    
+    .page-header {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .page-title {
+      color: var(--accent-color);
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    
+    .page-subtitle {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+    
+    /* Card Styles */
+    .card-custom {
+      background-color: var(--card-bg);
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    
+    .card-header-custom {
+      background-color: rgba(255, 106, 0, 0.1);
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .card-title {
+      color: var(--accent-color);
+      font-weight: 600;
+      margin: 0;
+      font-size: 1.1rem;
+    }
+    
+    .card-body {
+      padding: 1.5rem;
+    }
+    
+    /* Table Styles */
+    .table-container {
+      overflow-x: auto;
+      border-radius: 8px;
+    }
+    
+    .table-custom {
+      width: 100%;
+      color: var(--text-primary);
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: 1200px; /* Minimum width for wide tables */
+    }
+    
+    .table-custom thead th {
+      background-color: rgba(255, 106, 0, 0.15);
+      color: var(--accent-color);
+      font-weight: 600;
+      padding: 1rem 0.75rem;
+      border-bottom: 2px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      white-space: nowrap;
+    }
+    
+    .table-custom tbody tr {
+      transition: background-color 0.2s ease;
+    }
+    
+    .table-custom tbody tr:nth-child(even) {
+      background-color: rgba(255, 255, 255, 0.03);
+    }
+    
+    .table-custom tbody tr:hover {
+      background-color: rgba(255, 106, 0, 0.1);
+    }
+    
+    .table-custom td {
+      padding: 1rem 0.75rem;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    /* Search and Filter */
+    .search-box {
+      display: flex;
+      margin-bottom: 1rem;
+    }
+    
+    .search-input {
+      flex: 1;
+      background-color: var(--secondary-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 0.5rem 1rem;
+      border-radius: 6px 0 0 6px;
+      outline: none;
+    }
+    
+    .search-btn {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0 6px 6px 0;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .search-btn:hover {
+      background-color: var(--accent-hover);
+    }
+    
+    /* Table info text */
+    .table-info {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+    
+    /* Responsive Adjustments - Same as IOC list */
+    @media (max-width: 992px) {
+      .app-container {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        height: auto;
+        padding: 1rem;
+      }
+      
+      .nav-items {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+      }
+      
+      .nav-item {
+        margin: 0 5px;
+        white-space: nowrap;
+      }
+      
+      .main-content {
+        padding: 1rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .main-content {
+        padding: 1rem;
+      }
+      
+      .card-header-custom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      
+      .table-custom thead {
+        display: none;
+      }
+      
+      .table-custom {
+        min-width: 100%;
+      }
+      
+      .table-custom tbody tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 0.5rem;
+      }
+      
+      .table-custom td {
+        display: block;
+        text-align: right;
+        padding: 0.5rem 1rem;
+        position: relative;
+        padding-left: 50%;
+        max-width: none;
+        white-space: normal;
+        border-bottom: 1px solid var(--border-color);
+        word-break: break-word;
+      }
+      
+      .table-custom td:last-child {
+        border-bottom: none;
+      }
+      
+      .table-custom td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 1rem;
+        width: calc(50% - 1rem);
+        padding-right: 1rem;
+        text-align: left;
+        font-weight: 600;
+        color: var(--accent-color);
+      }
+      
+      /* Specific column adjustments for alerts */
+      .table-custom td:nth-child(1)::before { content: "ID"; }
+      .table-custom td:nth-child(2)::before { content: "Alert Type"; }
+      .table-custom td:nth-child(3)::before { content: "Source IP"; }
+      .table-custom td:nth-child(4)::before { content: "Target IP"; }
+      .table-custom td:nth-child(5)::before { content: "Source MAC"; }
+      .table-custom td:nth-child(6)::before { content: "Claimed MAC"; }
+      .table-custom td:nth-child(7)::before { content: "Previous MAC"; }
+      .table-custom td:nth-child(8)::before { content: "Ports"; }
+      .table-custom td:nth-child(9)::before { content: "Ports Count"; }
+      .table-custom td:nth-child(10)::before { content: "Start Time"; }
+      .table-custom td:nth-child(11)::before { content: "Duration (sec)"; }
+    }
+    
+    @media (max-width: 480px) {
+      .page-title {
+        font-size: 1.5rem;
+      }
+      
+      .sidebar-header h4 {
+        font-size: 1.3rem;
+      }
+      
+      .nav-link {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+      }
+      
+      .nav-link i {
+        margin-right: 8px;
+        font-size: 0.9rem;
+      }
+      
+      .search-input, .search-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+      }
+      
+      .table-custom td {
+        padding-left: 40%;
+        font-size: 0.85rem;
+      }
+      
+      .table-custom td::before {
+        width: calc(40% - 1rem);
+        font-size: 0.8rem;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="app-container">
-    <!-- Sidebar -->
+    <!-- Sidebar - Same as IOC list -->
     <div class="sidebar">
       <div class="sidebar-header">
         <h4>Threat<span>Sentinel</span></h4>
       </div>
      
-        <div class="nav-items">
-        
-        <div class="nav-item"><a href="main.html" class="nav-link"><i class="fas fa-chart-dashboard"></i> Dashboard</a></div>
-        <div class="nav-item"><a href="/ioc_list.html" class="nav-link"><i class="fas fa-list"></i> IOC List</a></div>
-        <div class="nav-item"><a href="/alerts.html" class="nav-link active"><i class="fas fa-bell"></i> Alerts</a></div>
-        <div class="nav-item"><a href="/report.html" class="nav-link"><i class="fas fa-file-alt"></i> Report</a></div>
-        <div class="nav-item"><a href="/integration.html" class="nav-link"><i class="fas fa-plug"></i> Integration</a></div>
-        <div class="nav-item"><a href="/settings.html" class="nav-link"><i class="fas fa-cog"></i> Settings</a></div>
-<div class="nav-item">
-  <a href="{{ url_for('home') }}" class="nav-link">
-    <i class="fas fa-sign-out-alt"></i> Log Out
-  </a>
-</div>
+      <div class="nav-items">
+        <div class="nav-item">
+          <a href="main.html" class="nav-link">
+            <i class="fas fa-chart-dashboard"></i> Dashboard
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/ioc_list.html" class="nav-link">
+            <i class="fas fa-list"></i> IOC List
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/alerts.html" class="nav-link active">
+            <i class="fas fa-bell"></i> Alerts
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/report.html" class="nav-link">
+            <i class="fas fa-file-alt"></i> Report
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/integration.html" class="nav-link">
+            <i class="fas fa-plug"></i> Integration
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/settings.html" class="nav-link">
+            <i class="fas fa-cog"></i> Settings
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="{{ url_for('home') }}" class="nav-link">
+            <i class="fas fa-sign-out-alt"></i> Log Out
+          </a>
+        </div>
       </div>
     </div>
 
@@ -78,7 +414,9 @@
 
       <div class="search-box">
         <input type="text" class="search-input" placeholder="Search alerts...">
-        <button class="search-btn"><i class="fas fa-search"></i></button>
+        <button class="search-btn">
+          <i class="fas fa-search"></i>
+        </button>
       </div>
 
       <div class="card-custom">
@@ -89,50 +427,48 @@
         <div class="card-body">
           <div class="table-container">
             <table class="table-custom">
-             <thead>
-  <tr>
-    <th>ID</th>
-    <th>Alert Type</th>
-    <th>Source IP</th>
-    <th>Target IP</th>
-    <th>Source MAC</th>
-    <th>Claimed MAC</th>
-    <th>Previous MAC</th>
-    <th>Ports</th>
-    <th>Ports Scanned Count</th>
-    <th>Start Time</th>
-    <th>Duration (sec)</th>
-  </tr>
-</thead>
-<tbody>
-  {% for alert in alerts_data %}
-  <tr>
-    <td>{{ alert._id }}</td>
-    <td>{{ alert.alert_type }}</td>
-    <td>{{ alert.src_ip }}</td>
-    <td>{{ alert.target_ip }}</td>
-    <td>{{ alert.src_mac }}</td>
-    <td>{{ alert.claimed_mac }}</td>
-    <td>{{ alert.previous_mac }}</td>
-    <td>
-      {% if alert.ports %}
-        {{ alert.ports }}
-      {% else %}
-        -
-      {% endif %}
-    </td>
-    <td>{{ alert.ports_scanned_count }}</td>
-    <td>{{ alert.start_time }}</td>
-    <td>{{ alert.duration_sec }}</td>
-  </tr>
-  {% else %}
-  <tr>
-    <td colspan="11" class="text-center text-muted">⚠ No alert records found</td>
-  </tr>
-  {% endfor %}
-</tbody>
-
-
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Alert Type</th>
+                  <th>Source IP</th>
+                  <th>Target IP</th>
+                  <th>Source MAC</th>
+                  <th>Claimed MAC</th>
+                  <th>Previous MAC</th>
+                  <th>Ports</th>
+                  <th>Ports Count</th>
+                  <th>Start Time</th>
+                  <th>Duration (sec)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for alert in alerts_data %}
+                <tr>
+                  <td data-label="ID">{{ alert._id|truncate(8) if alert._id|length > 8 else alert._id }}</td>
+                  <td data-label="Alert Type">{{ alert.alert_type }}</td>
+                  <td data-label="Source IP">{{ alert.src_ip }}</td>
+                  <td data-label="Target IP">{{ alert.target_ip }}</td>
+                  <td data-label="Source MAC">{{ alert.src_mac|truncate(10) if alert.src_mac|length > 10 else alert.src_mac }}</td>
+                  <td data-label="Claimed MAC">{{ alert.claimed_mac if alert.claimed_mac else "-" }}</td>
+                  <td data-label="Previous MAC">{{ alert.previous_mac if alert.previous_mac else "-" }}</td>
+                  <td data-label="Ports">
+                    {% if alert.ports and alert.ports != "N/A" and alert.ports != "-" %}
+                      <span title="{{ alert.ports }}">{{ alert.ports|truncate(15) }}</span>
+                    {% else %}
+                      -
+                    {% endif %}
+                  </td>
+                  <td data-label="Ports Count">{{ alert.ports_scanned_count if alert.ports_scanned_count else "0" }}</td>
+                  <td data-label="Start Time">{{ alert.start_time }}</td>
+                  <td data-label="Duration (sec)">{{ alert.duration_sec|round(2) if alert.duration_sec else "0.00" }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                  <td colspan="11" class="text-center text-muted">⚠ No alert records found</td>
+                </tr>
+                {% endfor %}
+              </tbody>
             </table>
           </div>
         </div>
@@ -140,87 +476,74 @@
     </div>
   </div>
 
- <script>
-  // Search alerts on button click
-  document.querySelector('.search-btn').addEventListener('click', function() {
-    const searchText = document.querySelector('.search-input').value.toLowerCase();
-    const rows = document.querySelectorAll('.table-custom tbody tr');
-    
-    rows.forEach(row => {
-      const text = row.textContent.toLowerCase();
-      if (text.includes(searchText)) {
-        row.style.display = '';
-      } else {
-        row.style.display = 'none';
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Search alerts on button click
+    document.querySelector('.search-btn').addEventListener('click', function() {
+      const searchText = document.querySelector('.search-input').value.toLowerCase();
+      const rows = document.querySelectorAll('.table-custom tbody tr');
+      
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        if (text.includes(searchText)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+
+    // Allow pressing Enter to trigger search
+    document.querySelector('.search-input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        document.querySelector('.search-btn').click();
       }
     });
-  });
+  </script>
 
-  // Allow pressing Enter to trigger search
-  document.querySelector('.search-input').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-      document.querySelector('.search-btn').click();
-    }
-  });
-</script>
-
-<!-- Real-time alerts refresh code -->
-<script>
-async function refreshAlertsTable() {
-    try {
+  <!-- Rest of your scripts (refreshAlertsTable and loadAlerts) remain the same -->
+  <script>
+    async function refreshAlertsTable() {
+      try {
         const response = await fetch('/api/alerts_data');
         const alerts = await response.json();
         
         // Update table dynamically
         const tbody = document.querySelector('.table-custom tbody');
         tbody.innerHTML = alerts.map(alert => `
-            <tr>
-                <td>${alert._id}</td>
-                <td>${alert.alert_type}</td>
-                <td>${alert.src_ip}</td>
-                <td>${alert.target_ip}</td>
-                <td>${alert.src_mac}</td>
-                <td>${alert.claimed_mac}</td>
-                <td>${alert.previous_mac}</td>
-                <td>${alert.ports || '-'}</td>
-                <td>${alert.ports_scanned_count}</td>
-                <td>${alert.start_time}</td>
-                <td>${alert.duration_sec}</td>
-            </tr>
+          <tr>
+            <td data-label="ID">${alert._id.length > 8 ? alert._id.substring(0, 8) + '...' : alert._id}</td>
+            <td data-label="Alert Type">${alert.alert_type}</td>
+            <td data-label="Source IP">${alert.src_ip}</td>
+            <td data-label="Target IP">${alert.target_ip}</td>
+            <td data-label="Source MAC">${alert.src_mac.length > 10 ? alert.src_mac.substring(0, 10) + '...' : alert.src_mac}</td>
+            <td data-label="Claimed MAC">${alert.claimed_mac || '-'}</td>
+            <td data-label="Previous MAC">${alert.previous_mac || '-'}</td>
+            <td data-label="Ports">
+              ${alert.ports && alert.ports !== "N/A" && alert.ports !== "-" ? 
+                `<span title="${alert.ports}">${alert.ports.length > 15 ? alert.ports.substring(0, 15) + '...' : alert.ports}</span>` 
+                : '-'}
+            </td>
+            <td data-label="Ports Count">${alert.ports_scanned_count || '0'}</td>
+            <td data-label="Start Time">${alert.start_time}</td>
+            <td data-label="Duration (sec)">${alert.duration_sec ? parseFloat(alert.duration_sec).toFixed(2) : '0.00'}</td>
+          </tr>
         `).join('');
         
         // Update counter
         document.querySelector('.table-info').textContent = `Showing ${alerts.length} entries`;
         
-    } catch (error) {
+      } catch (error) {
         console.error('Error refreshing alerts:', error);
+      }
     }
-}
 
-// Auto-refresh every 15 seconds
-setInterval(refreshAlertsTable, 15000);
-</script>
-
-<!-- >>> added ALERT CODE <<< -->
-<script>
-async function loadAlerts() {
-    try {
-        let res = await fetch('/api/latest_alerts');
-        let data = await res.json();
-        let container = document.getElementById("alerts-container");
-        if(container){
-            container.innerHTML = "";
-            data.forEach(a => {
-                let div = document.createElement("div");
-                div.innerText = `[${new Date(a.time*1000).toLocaleString()}] ${a.src} -> ${a.reason}`;
-                container.appendChild(div);
-            });
-        }
-    } catch(e) {
-        console.log("Error loading alerts", e);
-    }
-}
-setInterval(loadAlerts, 5000);
-</script>
+    // Auto-refresh every 15 seconds
+    setInterval(refreshAlertsTable, 15000);
+    
+    // Initial load
+    refreshAlertsTable();
+  </script>
 </body>
 </html>

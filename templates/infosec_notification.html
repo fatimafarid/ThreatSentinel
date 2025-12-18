@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* === Same styling as IOC List === */
     :root {
       --primary-bg: #0a0a14;
       --secondary-bg: #12121e;
@@ -19,23 +18,130 @@
       --text-secondary: #b0b0b0;
       --border-color: #2a2a3c;
     }
-    body { background-color: var(--primary-bg); color: var(--text-primary); font-family: 'Montserrat', 'Segoe UI', sans-serif; margin:0; padding:0;}
-    .app-container { display: flex; min-height: 100vh;}
-    .sidebar { width: 280px; background-color: var(--secondary-bg); padding: 1.5rem 1rem; border-right: 1px solid var(--border-color);}
-    .sidebar-header { border-bottom: 1px solid var(--border-color); margin-bottom: 1rem;}
-    .sidebar-header h4 { color: var(--text-primary); font-weight: 700;}
-    .sidebar-header span { color: var(--accent-color);}
-    .nav-item { margin: 8px 0;}
-    .nav-link { color: var(--text-secondary); padding:0.75rem 1rem; display:flex; align-items:center; border-radius:6px; text-decoration:none;}
-    .nav-link:hover, .nav-link.active { background-color: var(--accent-color); color:#fff;}
-    .nav-link i { margin-right:10px;}
-    .main-content { flex:1; padding:1.5rem 2rem; overflow-y:auto;}
-    .page-header { margin-bottom:1.5rem; border-bottom:1px solid var(--border-color); padding-bottom:1rem;}
-    .page-title { color: var(--accent-color); font-weight:700;}
-    .page-subtitle { color: var(--text-secondary); font-size:0.9rem;}
-    .card-custom { background-color: var(--card-bg); border:1px solid var(--border-color); border-radius:10px; margin-bottom:1.5rem;}
-    .card-header-custom { background-color: rgba(255,106,0,0.1); padding:1rem 1.5rem; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between;}
-    .card-title { color: var(--accent-color); font-weight:600;}
+    
+    body {
+      background-color: var(--primary-bg);
+      color: var(--text-primary);
+      font-family: 'Montserrat', 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    /* Sidebar Styles - Same as alerts.html */
+    .sidebar {
+      width: 280px;
+      background-color: var(--secondary-bg);
+      padding: 1.5rem 1rem;
+      border-right: 1px solid var(--border-color);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      z-index: 100;
+    }
+    
+    .sidebar-header {
+      padding: 0 0.5rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 1rem;
+    }
+    
+    .sidebar-header h4 {
+      color: var(--text-primary);
+      font-weight: 700;
+      margin: 0;
+    }
+    
+    .sidebar-header span {
+      color: var(--accent-color);
+    }
+    
+    .nav-item {
+      margin: 8px 0;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-item:hover {
+      background-color: rgba(255, 106, 0, 0.1);
+    }
+    
+    .nav-link {
+      color: var(--text-secondary);
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      color: var(--text-primary);
+      background-color: var(--accent-color);
+    }
+    
+    .nav-link i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+    }
+    
+    /* Main Content Styles */
+    .main-content {
+      flex: 1;
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+    }
+    
+    .page-header {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .page-title {
+      color: var(--accent-color);
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    
+    .page-subtitle {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+    
+    /* Card Styles */
+    .card-custom {
+      background-color: var(--card-bg);
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    
+    .card-header-custom {
+      background-color: rgba(255, 106, 0, 0.1);
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .card-title {
+      color: var(--accent-color);
+      font-weight: 600;
+      margin: 0;
+      font-size: 1.1rem;
+    }
+    
+    .card-body {
+      padding: 1.5rem;
+    }
     
     /* Notification Styles */
     .notification-item {
@@ -67,28 +173,35 @@
     .notification-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       margin-bottom: 0.5rem;
     }
     
     .notification-title {
       font-weight: 600;
       color: var(--text-primary);
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
     
     .notification-time {
       color: var(--text-secondary);
       font-size: 0.85rem;
+      white-space: nowrap;
     }
     
     .notification-content {
       color: var(--text-secondary);
       margin-bottom: 0.5rem;
+      line-height: 1.5;
     }
     
     .notification-source {
       font-size: 0.85rem;
       color: var(--accent-color);
+      margin-bottom: 0.5rem;
     }
     
     .notification-actions {
@@ -106,6 +219,9 @@
       font-size: 0.8rem;
       cursor: pointer;
       transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
     }
     
     .notification-btn:hover {
@@ -126,9 +242,169 @@
       color: var(--border-color);
     }
     
-    .search-box { display:flex; margin-bottom:1rem;}
-    .search-input { flex:1; background-color: var(--secondary-bg); border:1px solid var(--border-color); color:#fff; padding:0.5rem 1rem;}
-    .search-btn { background-color: var(--accent-color); border:none; padding:0.5rem 1rem; color:#fff;}
+    /* Search and Filter */
+    .search-box {
+      display: flex;
+      margin-bottom: 1rem;
+    }
+    
+    .search-input {
+      flex: 1;
+      background-color: var(--secondary-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 0.5rem 1rem;
+      border-radius: 6px 0 0 6px;
+      outline: none;
+    }
+    
+    .search-btn {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0 6px 6px 0;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .search-btn:hover {
+      background-color: var(--accent-hover);
+    }
+    
+    /* Table info text */
+    .table-info {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+    
+    /* Responsive Adjustments - Same as alerts.html */
+    @media (max-width: 992px) {
+      .app-container {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        height: auto;
+        padding: 1rem;
+      }
+      
+      .nav-items {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+      }
+      
+      .nav-item {
+        margin: 0 5px;
+        white-space: nowrap;
+      }
+      
+      .main-content {
+        padding: 1rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .main-content {
+        padding: 1rem;
+      }
+      
+      .page-title {
+        font-size: 1.5rem;
+      }
+      
+      .card-header-custom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      
+      .notification-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      
+      .notification-time {
+        align-self: flex-start;
+      }
+      
+      .notification-actions {
+        flex-wrap: wrap;
+      }
+      
+      .notification-btn {
+        flex: 1;
+        min-width: 120px;
+        justify-content: center;
+      }
+      
+      .search-box {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .search-input, .search-btn {
+        border-radius: 6px;
+        width: 100%;
+      }
+      
+      .search-input {
+        border-right: 1px solid var(--border-color);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .page-title {
+        font-size: 1.3rem;
+      }
+      
+      .sidebar-header h4 {
+        font-size: 1.3rem;
+      }
+      
+      .nav-link {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+      }
+      
+      .nav-link i {
+        margin-right: 8px;
+        font-size: 0.9rem;
+      }
+      
+      .search-input, .search-btn {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+      }
+      
+      .notification-item {
+        padding: 0.8rem;
+      }
+      
+      .notification-title {
+        font-size: 0.95rem;
+      }
+      
+      .notification-content {
+        font-size: 0.9rem;
+      }
+      
+      .notification-btn {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.6rem;
+      }
+      
+      .empty-state {
+        padding: 1.5rem;
+      }
+      
+      .empty-state i {
+        font-size: 2.5rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -144,7 +420,7 @@
         <div class="nav-item"><a href="/infosec_ioc_list.html" class="nav-link"><i class="fas fa-list"></i> IOC List</a></div>
         <div class="nav-item"><a href="/infosec_alerts.html" class="nav-link"><i class="fas fa-bell"></i> Alerts</a></div>
         <div class="nav-item"><a href="/infosec_notification.html" class="nav-link active"><i class="fas fa-bell"></i> Notifications</a></div>
-<div class="nav-item">
+        <div class="nav-item">
           <a href="infosec_report.html" class="nav-link">
             <i class="fas fa-file-alt"></i> Report
           </a>
@@ -211,15 +487,15 @@
     }
 
     // Add a new notification
-   function addNotification(notification) {
-    // Use the MongoDB _id as the unique identifier
-    if (!allNotifications.find(n => n.id === notification.id)) {
+    function addNotification(notification) {
+      // Use the MongoDB _id as the unique identifier
+      if (!allNotifications.find(n => n.id === notification.id)) {
         notification.timestamp = new Date().toISOString();
         allNotifications.unshift(notification);
         saveNotifications();
         renderNotifications();
+      }
     }
-}
 
     // Remove a notification by ID
     function removeNotification(id) {
@@ -307,7 +583,12 @@
     // Mark notification as read (for future functionality)
     function markAsRead(id) {
       // This could be expanded to track read status
-      alert('Marked as read: ' + id);
+      const notification = allNotifications.find(n => n.id === id);
+      if (notification) {
+        notification.read = true;
+        saveNotifications();
+        renderNotifications();
+      }
     }
 
     // Search notifications
@@ -345,7 +626,7 @@
         return;
       }
       
-      // Render filtered notifications (similar to renderNotifications but with filtered list)
+      // Render filtered notifications
       container.innerHTML = filteredNotifications.map(notification => {
         const time = new Date(notification.timestamp).toLocaleString();
         let typeClass = '';
@@ -394,26 +675,26 @@
     }
 
     // Check for new alerts from the API and save them
-   async function checkForNewAlerts() {
-    try {
+    async function checkForNewAlerts() {
+      try {
         const response = await fetch('/api/recent_alerts');
         const alerts = await response.json();
         
         if (alerts && alerts.length > 0) {
-            alerts.forEach(alert => {
-                addNotification({
-                    id: alert.id,  // Use _id from MongoDB
-                    title: 'Security Alert',
-                    message: `${alert.reason} detected from ${alert.src}`,
-                    source: alert.src,
-                    type: alert.type || 'warning'
-                });
+          alerts.forEach(alert => {
+            addNotification({
+              id: alert.id,
+              title: 'Security Alert',
+              message: `${alert.reason} detected from ${alert.src}`,
+              source: alert.src,
+              type: alert.type || 'warning'
             });
+          });
         }
-    } catch (error) {
+      } catch (error) {
         console.error('Error checking for new alerts:', error);
+      }
     }
-}
 
     // Initialize the page
     document.addEventListener('DOMContentLoaded', function() {

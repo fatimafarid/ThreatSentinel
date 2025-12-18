@@ -9,228 +9,325 @@
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <style>
-        body {
-            font-family: 'Merriweather', serif;
-            font-size: 16px;
-            margin: 0;
-            padding: 0;
-            background: radial-gradient(circle, #2a0e00 0%, #000 70%);
-            color: white;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-        }
+  <style>
+    body {
+        font-family: 'Merriweather', serif;
+        font-size: 16px;
+        margin: 0;
+        padding: 0;
+        background: radial-gradient(circle, #2a0e00 0%, #000 70%);
+        color: white;
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+    }
 
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            z-index: 0;
-        }
+    body::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                          linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+        background-size: 50px 50px;
+        z-index: 0;
+    }
 
-        .navbar-custom {
-            background: #1a1a1a;
-            padding: 15px 20px;
-            position: relative;
-            z-index: 10;
-        }
+    .navbar-custom {
+        background: #1a1a1a;
+        padding: 15px 20px;
+        position: relative;
+        z-index: 10;
+    }
 
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 2.5rem;
-            color: #fff !important;
-        }
+    .navbar-brand {
+        font-weight: 700;
+        font-size: clamp(1.5rem, 4vw, 2.5rem); /* Responsive font size */
+        color: #fff !important;
+    }
 
-        .nav-link {
-            color: #ddd !important;
-            font-weight: 700;
-            margin-right: 20px;
-            font-size: 2.5rem;
-        }
+    .nav-link {
+        color: #ddd !important;
+        font-weight: 700;
+        margin-right: clamp(10px, 2vw, 20px); /* Responsive margin */
+        font-size: clamp(1rem, 2vw, 1.5rem); /* Responsive font size */
+    }
 
-        .nav-link:hover {
-            color: #fff !important;
-        }
+    .nav-link:hover {
+        color: #fff !important;
+    }
 
-        .btn-login {
-            background-color: transparent;
-            color: #ffa726;
-            border: 1px solid #ffa726;
-            border-radius: 20px;
-            padding: 8px 20px;
-            font-weight: 700;
-            font-size: 2.5rem;
-        }
+    .btn-login {
+        background-color: transparent;
+        color: #ffa726;
+        border: 1px solid #ffa726;
+        border-radius: 20px;
+        padding: clamp(6px, 1vw, 8px) clamp(15px, 3vw, 20px); /* Responsive padding */
+        font-weight: 700;
+        font-size: clamp(1rem, 2vw, 1.5rem); /* Responsive font size */
+        white-space: nowrap;
+    }
 
-        .btn-login:hover {
-            background-color: #ffa726;
-            color: #000;
-        }
+    .btn-login:hover {
+        background-color: #ffa726;
+        color: #000;
+    }
 
-        .hero-section {
-            text-align: center;
-            position: relative;
-            z-index: 1;
-            background: url("https://socbyte.ai/static/13-1-hero-bg-2.png") no-repeat center center;
-            background-size: cover;
-            background-attachment: fixed;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+    .hero-section {
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        background: url("https://socbyte.ai/static/13-1-hero-bg-2.png") no-repeat center center;
+        background-size: cover;
+        background-attachment: scroll; /* Changed from fixed for better mobile performance */
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
 
-        .hero-content {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            max-width: 1200px;
-            gap: clamp(24px, 4vw, 96px);
-        }
+    .hero-content {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: 1200px;
+        gap: clamp(24px, 4vw, 96px);
+    }
 
-        .hero-text {
-            text-align: left;
-            padding-right: clamp(12px, 2vw, 32px);
-        }
+    .hero-text {
+        text-align: left;
+        padding-right: clamp(12px, 2vw, 32px);
+    }
 
-        .hero-text h1 {
-            font-size: 4.5rem;
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 20px;
-            margin-left: -50px;
-        }
+    .hero-text h1 {
+        font-size: clamp(2rem, 5vw, 4.5rem); /* Responsive font size */
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 20px;
+        margin-left: 0; /* Removed negative margin */
+    }
 
-        .hero-text p {
-            font-size: 1.5rem;
-            max-width: 600px;
-            margin-left: -50px;
-        }
+    .hero-text p {
+        font-size: clamp(1rem, 2vw, 1.5rem); /* Responsive font size */
+        max-width: 600px;
+        margin-left: 0; /* Removed negative margin */
+    }
 
-        .owl-landing-zone {
-            width: 500px;
-            height: 500px;
-            position: relative;
-        }
+    .owl-landing-zone {
+        width: clamp(300px, 40vw, 500px); /* Responsive width */
+        height: clamp(300px, 40vw, 500px); /* Responsive height */
+        position: relative;
+    }
 
-        .owl {
-            position: absolute;
+    .owl {
+        position: absolute;
+        top: -200px;
+        right: -200px;
+        width: 100%; /* Changed to percentage */
+        height: auto;
+        transform-origin: center;
+        animation: flyInAndLand 5s forwards;
+        animation-delay: 1s;
+        z-index: 2;
+    }
+
+    @keyframes flyInAndLand {
+        0% {
             top: -200px;
             right: -200px;
-            width: 500px;
-            height: auto;
-            transform-origin: center;
-            animation: flyInAndLand 5s forwards;
-            animation-delay: 1s;
-            z-index: 2;
+            transform: scale(0.5) rotate(15deg);
         }
+        70% {
+            top: 50px;
+            right: 50px;
+            transform: scale(1.1) rotate(-5deg);
+        }
+        100% {
+            top: 100px;
+            right: 50px;
+            transform: scale(1) rotate(0deg);
+        }
+    }
 
+    .mission-section {
+        padding: clamp(50px, 8vw, 100px) 20px; /* Responsive padding */
+        background-color: rgba(0, 0, 0, 0.7);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .mission-box {
+        background-color: transparent;
+        border-radius: 12px;
+        padding: clamp(20px, 4vw, 40px); /* Responsive padding */
+        max-width: 1000px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .mission-title {
+        font-size: clamp(2rem, 4vw, 3.5rem); /* Responsive font size */
+        color: #ffa726;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        letter-spacing: 2px;
+    }
+
+    .mission-box > p {
+        font-size: clamp(1rem, 2vw, 1.5rem); /* Responsive font size */
+        line-height: 1.6;
+        margin-bottom: 40px;
+    }
+
+    .card-section {
+        display: flex;
+        justify-content: center;
+        gap: clamp(15px, 2vw, 20px); /* Responsive gap */
+        flex-wrap: wrap; /* Allow wrapping on mobile */
+    }
+
+    .card-section .card {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        color: white;
+        text-align: center;
+        min-width: 0; /* Remove fixed min-width */
+        width: clamp(250px, 30vw, 500px); /* Responsive width */
+        flex: 1 1 clamp(250px, 30vw, 500px); /* Responsive flex basis */
+        max-width: 500px;
+    }
+
+    .card-section .card:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-section .card h6 {
+        font-size: clamp(1.2rem, 2vw, 1.5rem); /* Responsive font size */
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+
+    .card-section .card p {
+        font-size: clamp(1rem, 1.5vw, 1.2rem); /* Responsive font size */
+        line-height: 1.4;
+    }
+
+    /* Media queries for mobile-specific adjustments */
+    @media (max-width: 991.98px) {
+        .hero-content {
+            flex-direction: column; /* Stack elements on tablet/mobile */
+            text-align: center;
+        }
+        
+        .hero-text {
+            text-align: center;
+            padding-right: 0;
+            margin-bottom: 40px;
+        }
+        
+        .hero-text h1, .hero-text p {
+            margin-left: 0;
+        }
+        
+        .owl-landing-zone {
+            margin-top: 1.5rem;
+            width: 300px;
+            height: 300px;
+        }
+        
+        .owl {
+            top: -150px;
+            right: -150px;
+        }
+        
         @keyframes flyInAndLand {
             0% {
-                top: -200px;
-                right: -200px;
+                top: -150px;
+                right: -150px;
                 transform: scale(0.5) rotate(15deg);
             }
             70% {
-                top: 50px;
-                right: 50px;
+                top: 30px;
+                right: 30px;
                 transform: scale(1.1) rotate(-5deg);
             }
             100% {
-                top: 100px;
-                right: 50px;
+                top: 50px;
+                right: 30px;
                 transform: scale(1) rotate(0deg);
             }
         }
-
-        .mission-section {
-            padding: 100px 20px;
-            background-color: rgba(0, 0, 0, 0.7);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .mission-box {
-            background-color: transparent;
-            border-radius: 12px;
-            padding: 40px;
-            max-width: 1000px;
-            width: 100%;
+    }
+    
+    @media (max-width: 767.98px) {
+        .navbar-collapse {
             text-align: center;
         }
-
-        .mission-title {
-            font-size: 3.5rem;
-            color: #ffa726;
-            text-transform: uppercase;
+        
+        .nav-link {
+            margin-right: 0;
+            margin-bottom: 10px;
+        }
+        
+        .hero-section {
+            padding: 10px;
+        }
+        
+        .hero-text h1 {
+            font-size: 1.8rem;
+        }
+        
+        .hero-text p {
+            font-size: 1rem;
+        }
+        
+        .owl-landing-zone {
+            width: 250px;
+            height: 250px;
+        }
+        
+        .card-section .card {
+            flex-basis: 100%;
             margin-bottom: 20px;
-            letter-spacing: 2px;
         }
-
+        
+        .mission-title {
+            font-size: 1.8rem;
+        }
+        
         .mission-box > p {
+            font-size: 1rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .navbar-brand {
+            font-size: 1.3rem;
+        }
+        
+        .hero-text h1 {
             font-size: 1.5rem;
-            line-height: 1.6;
-            margin-bottom: 40px;
         }
-
-        .card-section {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: nowrap; /* ab wrap nahi karega jab tak screen chhoti na ho */
-}
-
-.card-section .card {
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    color: white;
-    text-align: center;
-    min-width: 500px;
-}
-
-        .card-section .card:hover {
-            background-color: rgba(255, 255, 255, 0.15);
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        
+        .hero-text p {
+            font-size: 0.9rem;
         }
-
-        .card-section .card h6 {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
+        
+        .owl-landing-zone {
+            width: 200px;
+            height: 200px;
         }
-
-        .card-section .card p {
-            font-size: 1.2rem;
-            line-height: 1.4;
-        }
-
-        @media (max-width: 991.98px) {
-            .owl-landing-zone {
-                margin-top: 1.5rem;
-            }
-            .card-section .card {
-                flex-basis: calc(50% - 20px);
-            }
-        }
-        @media (max-width: 767.98px) {
-            .card-section .card {
-                flex-basis: 100%;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
 
